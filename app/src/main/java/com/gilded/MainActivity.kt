@@ -29,5 +29,10 @@ class MainActivity : AppCompatActivity() {
         val backgroundGradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, gradientPoints)
 
         mainConstraintLayout.background = backgroundGradientDrawable
+
+        val tasquesFragment = HomeFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainerView, tasquesFragment)
+            .commit()
     }
 }
