@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         mainConstraintLayout.background = backgroundGradientDrawable
 
-        val tasquesFragment = HomeFragment()
+        val homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, tasquesFragment)
+            .replace(R.id.fragmentContainerView, homeFragment)
             .commit()
     }
 }

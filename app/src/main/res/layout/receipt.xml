@@ -23,7 +23,7 @@
         android:background="@drawable/dining" />
 
     <TextView
-        android:id="@+id/business"
+        android:id="@+id/recipient"
         android:layout_width="200dp"
         android:layout_height="48dp"
 
@@ -31,16 +31,16 @@
         android:layout_marginTop="16dp"
 
         android:textSize="24dp"
-        android:text="Business Name"
+        android:text="Recipient Name"
         android:gravity="start|center"
         />
 
     <TextView
         android:id="@+id/amount"
-        android:layout_width="120dp"
+        android:layout_width="104dp"
         android:layout_height="48dp"
 
-        android:layout_marginLeft="270dp"
+        android:layout_marginLeft="230dp"
         android:layout_marginTop="16dp"
 
         android:textSize="24dp"
