@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ReceiptViewerFragment"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+
+        android:layout_marginTop="80dp"
+
+        android:src="@drawable/dining"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/recipient"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+
+        android:layout_marginTop="8dp"
+
+        android:textSize="24sp"
+        android:text="Recipient Name"
+        android:gravity="center"
+
+        app:layout_constraintTop_toBottomOf="@id/image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+
+        android:textSize="32sp"
+        android:text="+/-Nu.m€"
+        android:gravity="center"
+
+        app:layout_constraintTop_toBottomOf="@id/recipient"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+
+        android:layout_marginTop="8dp"
+
+        android:textSize="20dp"
+        android:text="Day month, Ti:me"
+        android:gravity="center"
+
+        android:textColor="@color/grey"
+
+        app:layout_constraintTop_toBottomOf="@id/amount"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+
+        android:backgroundTint="@color/black_tonal1"
+
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        app:cardCornerRadius="12dp"
+
+        app:layout_constraintBottom_toTopOf="@id/delete">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+
+            android:gravity="start|center"
+            android:text="@string/category"
+            android:textSize="25sp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+
+            android:background="none"
+
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+
+            android:gravity="end|center"
+            android:text="@string/category"
+            android:textSize="25sp"
+
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/blue"
+            android:fontFamily="@font/montserrat_extrabold"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/delete"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:backgroundTint="@color/black_tonal1"
+
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        app:cardCornerRadius="12dp"
+
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+
+        android:src="@drawable/delete"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+
+        app:tint="@color/red" />
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+
+            android:textSize="25sp"
+            android:text="@string/delete_receipt"
+            android:textColor="@color/red"
+            android:gravity="start|center"
+
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="45dp"
+
+            app:layout_constraintTop_toBottomOf="@id/recipient"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
