@@ -5,11 +5,14 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.activity.viewModels
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mainConstraintLayout: ConstraintLayout
+
+    private val receiptsViewModel: ReceiptsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         val backgroundGradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, gradientPoints)
 
         mainConstraintLayout.background = backgroundGradientDrawable
+
+        for (receipt in TestReceipts.receipts) {
+            receiptsViewModel.addReceipt(receipt)
+        }
 
         val homeFragment = HomeFragment()
         supportFragmentManager.beginTransaction()
