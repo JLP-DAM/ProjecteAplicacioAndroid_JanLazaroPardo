@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -20,19 +19,19 @@ class HomeFragment : Fragment() {
         val homeFragmentView = inflater.inflate(R.layout.fragment_home, container, false)
 
         if (homeFragmentView != null) {
-            receiptsRecyclerView = homeFragmentView.findViewById<RecyclerView>(R.id.receipts)
+            receiptsRecyclerView = homeFragmentView.findViewById(R.id.receipts)
         }
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 
         receiptsRecyclerViewAdapter = ReceiptsRecyclerViewAdapter(
             receipts = TestReceipts.receipts,
-            onItemClick = { receipt ->
-                Toast.makeText(
-                    context,
-                    "Has obert el rebut: ${receipt.recipient} (Visualitzador de rebut en proces...)",
-                    Toast.LENGTH_SHORT
-                ).show()
+            onReceiptClick = { receipt ->
+                val receiptViewerFragment = ReceiptViewerFragment()
+
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragmentContainerView, receiptViewerFragment)
+                    ?.commit()
             }
         )
 

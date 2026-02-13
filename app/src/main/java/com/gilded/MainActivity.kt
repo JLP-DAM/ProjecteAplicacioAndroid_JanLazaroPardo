@@ -1,11 +1,8 @@
 package com.gilded
 
 import android.graphics.Color
-import android.graphics.LinearGradient
-import android.graphics.Shader
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.WindowInsets
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 

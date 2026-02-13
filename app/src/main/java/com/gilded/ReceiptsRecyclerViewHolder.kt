@@ -1,6 +1,7 @@
 package com.gilded
 
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -8,14 +9,14 @@ import java.util.Date
 
 class ReceiptsRecyclerViewHolder(
     receiptCardView: View,
-    private val onItemClick: (Receipt) -> Unit
+    private val onReceiptClick: (Receipt) -> Unit
 ) : RecyclerView.ViewHolder(receiptCardView) {
-
     private val recipientTextView: TextView = receiptCardView.findViewById(R.id.recipient)
     private val amountTextView: TextView = receiptCardView.findViewById(R.id.amount)
     private val timestampTextView: TextView = receiptCardView.findViewById(R.id.timestamp)
-    private val sectionTextView: TextView = receiptCardView.findViewById(R.id.section)
+    private val sectionTextView: TextView = receiptCardView.findViewById(R.id.category)
 
+    private val receiptButton: Button = receiptCardView.findViewById(R.id.button)
     fun bind(receipt: Receipt) {
         recipientTextView.text = receipt.recipient
 
@@ -27,6 +28,8 @@ class ReceiptsRecyclerViewHolder(
 
         timestampTextView.text = formattedDate
 
-        sectionTextView.text = receipt.section
+        sectionTextView.text = receipt.category
+
+        receiptButton.setOnClickListener { onReceiptClick(receipt) }
     }
 }
