@@ -4,4 +4,7 @@
     <string name="delete_receipt">Borrar rebut</string>
 
     <string name="category">Categoria</string>
+
+    <string name="addRecipient">Beneficiari</string>
+    <string name="addAmount">Quantitat</string>
 </resources>

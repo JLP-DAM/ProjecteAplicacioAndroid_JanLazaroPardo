@@ -52,6 +52,13 @@ class HomeFragment : Fragment() {
             receiptsRecyclerViewAdapter.updateList(receiptsViewModel.getReceipts())
         }
 
+        homeFragmentView.findViewById<Button>(R.id.addReceipt).setOnClickListener {
+            val receiptCreatorFragment = ReceiptCreatorFragment()
+
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentContainerView, receiptCreatorFragment)
+                ?.commit()        }
+
         homeFragmentView.findViewById<Button>(R.id.testAddButton).setOnClickListener {
             receiptsViewModel.addReceipt(Receipt("Test", Random.nextDouble(-30.0, 30.0), Random.nextLong(0, 10000000), "Test"))
         }

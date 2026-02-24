@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -27,7 +26,7 @@ class ReceiptViewerFragment : Fragment() {
         val timestampTextView: TextView = receiptViewer.findViewById(R.id.timestamp)
         val sectionTextView: TextView = receiptViewer.findViewById(R.id.category)
 
-        val goBackButton = receiptViewer.findViewById<ImageButton>(R.id.go_back)
+        val goBackButton = receiptViewer.findViewById<ImageButton>(R.id.goBack)
         val deleteCardView = receiptViewer.findViewById<CardView>(R.id.delete)
 
         fun goBack() {

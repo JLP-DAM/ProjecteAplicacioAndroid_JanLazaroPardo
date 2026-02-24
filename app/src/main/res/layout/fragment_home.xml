@@ -35,6 +35,17 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <Button
+        android:id="@+id/addReceipt"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginBottom="40dp"
+
+        android:text="Debug Add Receipt"/>
+
+    <Button
         android:id="@+id/testAddButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
