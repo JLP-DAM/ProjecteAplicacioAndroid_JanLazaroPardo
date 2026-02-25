@@ -24,10 +24,10 @@ class ReceiptViewerFragment : Fragment() {
         val recipientTextView: TextView = receiptViewer.findViewById(R.id.recipient)
         val amountTextView: TextView = receiptViewer.findViewById(R.id.amount)
         val timestampTextView: TextView = receiptViewer.findViewById(R.id.timestamp)
-        val sectionTextView: TextView = receiptViewer.findViewById(R.id.category)
+        val categoryTextView: TextView = receiptViewer.findViewById(R.id.category)
 
-        val goBackButton = receiptViewer.findViewById<ImageButton>(R.id.goBack)
         val deleteCardView = receiptViewer.findViewById<CardView>(R.id.delete)
+        val goBackButton = receiptViewer.findViewById<ImageButton>(R.id.goBack)
 
         fun goBack() {
             val homeFragment = HomeFragment()
@@ -54,7 +54,7 @@ class ReceiptViewerFragment : Fragment() {
 
             timestampTextView.text = formattedDate
 
-            sectionTextView.text = receipt.category
+            categoryTextView.text = receipt.category
         }
 
         return receiptViewer

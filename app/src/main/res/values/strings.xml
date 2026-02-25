@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Gilded</string>
 
+    <string name="create_receipt">Crear rebut</string>
     <string name="delete_receipt">Borrar rebut</string>
 
     <string name="category">Categoria</string>
 
-    <string name="addRecipient">Beneficiari</string>
-    <string name="addAmount">Quantitat</string>
+    <string name="recipient">Beneficiari</string>
+    <string name="amount">Quantitat</string>
+    <string name="date">Data</string>
+    <string name="time">Temps</string>
 </resources>
