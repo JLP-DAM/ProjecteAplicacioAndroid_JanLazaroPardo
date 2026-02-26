@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Gilded</string>
 
+    <string name="home">Inici</string>
+    <string name="add">Afegir</string>
+
     <string name="create_receipt">Crear rebut</string>
     <string name="delete_receipt">Borrar rebut</string>
 

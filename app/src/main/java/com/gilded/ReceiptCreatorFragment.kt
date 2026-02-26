@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import java.util.Calendar
@@ -60,7 +61,8 @@ class ReceiptCreatorFragment : Fragment() {
 
         createCardView.setOnClickListener {
             val recipient = recipientEditText.text.toString()
-            val amount = amountEditText.text.toString().toDouble()
+            val amount = amountEditText.text.toString().toDoubleOrNull()
+
             val timestamp = Date(
                 timestamp["year"]!!,
                 timestamp["month"]!!,
@@ -69,6 +71,12 @@ class ReceiptCreatorFragment : Fragment() {
                 timestamp["minute"]!!,
             ).time.toLong()
             val category = categoryEditText.text.toString()
+
+            if (amount == null) {
+                Toast.makeText(receiptCreator.context, "Quantitat no valida! Introdueix un nombre.", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
 
             receiptsViewModel.addReceipt(Receipt(recipient, amount, timestamp, category))
 
