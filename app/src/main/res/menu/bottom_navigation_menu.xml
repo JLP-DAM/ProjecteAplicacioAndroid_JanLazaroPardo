@@ -12,4 +12,10 @@
         android:title="@string/add"
         />
 
+    <item
+        android:id="@+id/expenses"
+        android:icon="@drawable/add"
+        android:title="@string/add"
+        />
+
 </menu>

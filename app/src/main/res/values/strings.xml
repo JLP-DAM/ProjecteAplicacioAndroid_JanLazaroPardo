@@ -13,4 +13,6 @@
     <string name="amount">Quantitat</string>
     <string name="date">Data</string>
     <string name="time">Temps</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

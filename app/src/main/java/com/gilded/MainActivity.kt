@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             val selectedFragment: Fragment? = when (clickedItem.itemId) {
                 R.id.home -> HomeFragment()
                 R.id.add -> ReceiptCreatorFragment()
+                R.id.expenses -> ExpensesFragment()
 
                 else -> null
             }
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationVisibleHashMap = HashMap<String, Boolean?>()
 
         bottomNavigationVisibleHashMap["HomeFragment"] = true
+        bottomNavigationVisibleHashMap["ExpensesFragment"] = true
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(
             object: FragmentManager.FragmentLifecycleCallbacks() {
