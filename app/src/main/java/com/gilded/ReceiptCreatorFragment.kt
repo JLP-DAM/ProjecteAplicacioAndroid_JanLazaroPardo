@@ -2,21 +2,20 @@ package com.gilded
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.SpannableStringBuilder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TimePicker
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import java.util.Calendar
 import java.util.Date
-import kotlin.getValue
 
 class ReceiptCreatorFragment : Fragment() {
 
@@ -63,6 +62,25 @@ class ReceiptCreatorFragment : Fragment() {
             val recipient = recipientEditText.text.toString()
             val amount = amountEditText.text.toString().toDoubleOrNull()
 
+            for (entry in timestamp.entries) {
+                val key: String? = entry.key
+                val value: Int? = entry.value
+
+                Log.d(key, value.toString())
+            }
+
+
+            val timestampTime = Date(
+                timestamp["year"]!!,
+                timestamp["month"]!!,
+                timestamp["day"]!!,
+                timestamp["hour"]!!,
+                timestamp["minute"]!!,
+            ).time
+
+            Log.d("Pre conversion created time: ", timestampTime.toString())
+            Log.d("Pre post conversion created time: ", "" + timestampTime.toLong())
+
             val timestamp = Date(
                 timestamp["year"]!!,
                 timestamp["month"]!!,
@@ -70,6 +88,9 @@ class ReceiptCreatorFragment : Fragment() {
                 timestamp["hour"]!!,
                 timestamp["minute"]!!,
             ).time.toLong()
+
+            Log.d("Created time: ", "" + Date(timestamp).day + "/" + Date(timestamp).month + "/" + Date(timestamp).year)
+
             val category = categoryEditText.text.toString()
 
             if (amount == null) {
