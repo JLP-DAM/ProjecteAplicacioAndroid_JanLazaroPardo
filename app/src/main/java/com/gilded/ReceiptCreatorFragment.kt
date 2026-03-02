@@ -66,7 +66,6 @@ class ReceiptCreatorFragment : Fragment() {
                 val key: String? = entry.key
                 val value: Int? = entry.value
 
-                Log.d(key, value.toString())
             }
 
 
@@ -78,8 +77,7 @@ class ReceiptCreatorFragment : Fragment() {
                 timestamp["minute"]!!,
             ).time
 
-            Log.d("Pre conversion created time: ", timestampTime.toString())
-            Log.d("Pre post conversion created time: ", "" + timestampTime.toLong())
+
 
             val timestamp = Date(
                 timestamp["year"]!!,
@@ -89,7 +87,6 @@ class ReceiptCreatorFragment : Fragment() {
                 timestamp["minute"]!!,
             ).time.toLong()
 
-            Log.d("Created time: ", "" + Date(timestamp).day + "/" + Date(timestamp).month + "/" + Date(timestamp).year)
 
             val category = categoryEditText.text.toString()
 

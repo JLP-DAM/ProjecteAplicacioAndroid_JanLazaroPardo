@@ -38,7 +38,7 @@ class ExpensesFragment : Fragment() {
         val expensesView = inflater.inflate(R.layout.fragment_expenses, container, false)
 
         currentTimeBoundary["year"] = 2026
-        currentTimeBoundary["month"] = 1
+        currentTimeBoundary["month"] = 2
 
         createPieChart(expensesView)
         createLineChart(expensesView)
@@ -105,21 +105,17 @@ class ExpensesFragment : Fragment() {
         ).time.toLong()
 
         for (day in 1..monthLength) {
-            Log.d("Day", day.toString())
             valuesArrayList.add(Entry(day.toFloat(), 0f))
         }
 
-        Log.d("Boundaries:", "" + minimumBoundary + " / " + maximumBoundary + ", total of " + (maximumBoundary - minimumBoundary))
 
-        Log.d("???", "" + Date(minimumBoundary).day + "/" + Date(minimumBoundary).month + "/" + Date(minimumBoundary).year)
 
         for (receipt in receiptsViewModel.getReceipts()) {
             if (receipt.amount >= 0) {
                 continue
             }
 
-            Log.d("Receipt Difference:", receipt.timestamp.toString() + " / difference of: " + (receipt.timestamp - minimumBoundary))
-            Log.d("??? 2", "" + Date(receipt.timestamp).day + "/" + Date(receipt.timestamp).month + "/" + Date(receipt.timestamp).year)
+
 
             if (receipt.timestamp < minimumBoundary || receipt.timestamp > maximumBoundary) {
                 continue
@@ -144,9 +140,10 @@ class ExpensesFragment : Fragment() {
 
         lineDataSet.circleRadius = 0f
         lineDataSet.setDrawFilled(false)
-        lineDataSet.valueTextSize = 20F
+        lineDataSet.setDrawCircles(false)
+        lineDataSet.valueTextSize = 0f
         lineDataSet.fillColor = resources.getColor(R.color.green)
-        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
 
         val data = LineData(lineDataSet)
         expensesLineChart.data = data
