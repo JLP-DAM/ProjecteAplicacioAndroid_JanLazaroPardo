@@ -1,8 +1,6 @@
 package com.gilded
 
-import android.graphics.Color
-
 data class Category(
     val name: String,
-    val color: Color,
+    val color: Int,
 )

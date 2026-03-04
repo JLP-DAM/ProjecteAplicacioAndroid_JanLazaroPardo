@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mainConstraintLayout: ConstraintLayout
 
     private val receiptsViewModel: ReceiptsViewModel by viewModels()
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
         for (receipt in TestReceipts.receipts) {
             receiptsViewModel.addReceipt(receipt)
+        }
+
+        for (category in TestCategories.categories) {
+            categoriesViewModel.addCategory(category)
         }
 
         val homeFragment = HomeFragment()

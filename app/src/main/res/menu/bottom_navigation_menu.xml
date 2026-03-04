@@ -14,8 +14,8 @@
 
     <item
         android:id="@+id/expenses"
-        android:icon="@drawable/add"
-        android:title="@string/add"
+        android:icon="@drawable/expenses"
+        android:title="@string/expenses"
         />
 
 </menu>

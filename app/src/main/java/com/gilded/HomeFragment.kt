@@ -1,6 +1,7 @@
 package com.gilded
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.fragment.app.activityViewModels
+import java.util.Date
 import kotlin.random.Random
 import kotlin.random.nextLong
 
@@ -52,15 +54,9 @@ class HomeFragment : Fragment() {
             receiptsRecyclerViewAdapter.updateList(receiptsViewModel.getReceipts())
         }
 
-        homeFragmentView.findViewById<Button>(R.id.addReceipt).setOnClickListener {
-            val receiptCreatorFragment = ReceiptCreatorFragment()
-
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentContainerView, receiptCreatorFragment)
-                ?.commit()        }
-
         homeFragmentView.findViewById<Button>(R.id.testAddButton).setOnClickListener {
-            receiptsViewModel.addReceipt(Receipt("Test", Random.nextDouble(-30.0, 30.0), Random.nextLong(0, 10000000), "Test"))
+            receiptsViewModel.addReceipt(Receipt("Test", Random.nextInt(-30, 30).toDouble(),
+                Date((Date().year - 100) + 2000, Date().month, Random.nextInt(1, 30)).time, "Test"))
         }
 
         return homeFragmentView

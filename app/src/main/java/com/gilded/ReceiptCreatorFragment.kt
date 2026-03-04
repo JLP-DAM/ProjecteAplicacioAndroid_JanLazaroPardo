@@ -62,13 +62,6 @@ class ReceiptCreatorFragment : Fragment() {
             val recipient = recipientEditText.text.toString()
             val amount = amountEditText.text.toString().toDoubleOrNull()
 
-            for (entry in timestamp.entries) {
-                val key: String? = entry.key
-                val value: Int? = entry.value
-
-            }
-
-
             val timestampTime = Date(
                 timestamp["year"]!!,
                 timestamp["month"]!!,
@@ -77,15 +70,13 @@ class ReceiptCreatorFragment : Fragment() {
                 timestamp["minute"]!!,
             ).time
 
-
-
             val timestamp = Date(
                 timestamp["year"]!!,
                 timestamp["month"]!!,
                 timestamp["day"]!!,
                 timestamp["hour"]!!,
                 timestamp["minute"]!!,
-            ).time.toLong()
+            ).time
 
 
             val category = categoryEditText.text.toString()
