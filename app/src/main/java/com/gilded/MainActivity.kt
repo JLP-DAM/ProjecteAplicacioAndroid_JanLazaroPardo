@@ -9,6 +9,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.gilded.fragments.ExpensesFragment
+import com.gilded.fragments.HomeFragment
+import com.gilded.fragments.ReceiptCreatorFragment
+import com.gilded.testsamples.TestCategories
+import com.gilded.testsamples.TestReceipts
+import com.gilded.viewmodels.CategoriesViewModel
+import com.gilded.viewmodels.ReceiptsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 

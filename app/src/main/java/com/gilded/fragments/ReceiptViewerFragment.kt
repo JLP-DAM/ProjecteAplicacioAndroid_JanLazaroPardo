@@ -1,4 +1,4 @@
-package com.gilded
+package com.gilded.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
+import com.gilded.viewmodels.CurrentReceiptViewModel
+import com.gilded.R
 import java.text.SimpleDateFormat
 import java.util.Date
 

@@ -1,9 +1,11 @@
-package com.gilded
+package com.gilded.recyclerview
 
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.gilded.R
+import com.gilded.models.Receipt
 import java.text.SimpleDateFormat
 import java.util.Date
 

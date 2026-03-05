@@ -1,10 +1,9 @@
-package com.gilded
+package com.gilded.fragments
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,9 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.gilded.R
+import com.gilded.models.Receipt
+import com.gilded.viewmodels.ReceiptsViewModel
 import java.util.Calendar
 import java.util.Date
 
@@ -42,11 +44,11 @@ class ReceiptCreatorFragment : Fragment() {
 
         val timestamp = HashMap<String, Int>()
 
-        timestamp["year"] = 0
-        timestamp["month"] = 0
-        timestamp["day"] = 0
-        timestamp["hour"] = 0
-        timestamp["minute"] = 0
+        timestamp["year"] = Date().year
+        timestamp["month"] = Date().month
+        timestamp["day"] = Date().date
+        timestamp["hour"] = Date().hours
+        timestamp["minute"] = Date().minutes
 
         fun goBack() {
             val homeFragment = HomeFragment()
@@ -93,19 +95,25 @@ class ReceiptCreatorFragment : Fragment() {
         }
 
         dateEditText.setOnClickListener {
-            datePickerDialog = DatePickerDialog(receiptCreator.context, {_, year, month, day ->
-                dateEditText.text = SpannableStringBuilder("${day}/${month + 1}/${year}")
+            datePickerDialog = DatePickerDialog(
+                receiptCreator.context,
+                { _, year, month, day ->
+                    dateEditText.text = SpannableStringBuilder("${day}/${month + 1}/${year}")
 
-                timestamp["year"] = year
-                timestamp["month"] = month
-                timestamp["day"] = day
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+                    timestamp["year"] = (year - 1900)
+                    timestamp["month"] = month
+                    timestamp["day"] = day
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
 
             datePickerDialog.show()
         }
 
         timeEditText.setOnClickListener {
-            timePickerDialog = TimePickerDialog(receiptCreator.context, {_, hour, minute ->
+            timePickerDialog = TimePickerDialog(receiptCreator.context, { _, hour, minute ->
                 timeEditText.text = SpannableStringBuilder("${hour}:${minute}")
 
                 timestamp["hour"] = hour

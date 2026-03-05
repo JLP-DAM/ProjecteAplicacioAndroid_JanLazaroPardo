@@ -1,8 +1,10 @@
-package com.gilded
+package com.gilded.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.gilded.R
+import com.gilded.models.Receipt
 
 class ReceiptsRecyclerViewAdapter(
     private var receipts: List<Receipt>,

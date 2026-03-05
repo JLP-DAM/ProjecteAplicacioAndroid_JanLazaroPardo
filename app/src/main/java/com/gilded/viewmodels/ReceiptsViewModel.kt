@@ -1,8 +1,9 @@
-package com.gilded
+package com.gilded.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gilded.models.Receipt
 
 class ReceiptsViewModel: ViewModel() {
     private val _receipts = MutableLiveData<List<Receipt>>()

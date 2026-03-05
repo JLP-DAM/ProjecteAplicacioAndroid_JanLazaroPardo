@@ -1,19 +1,21 @@
-package com.gilded
+package com.gilded.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.compose.material3.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.fragment.app.activityViewModels
+import com.gilded.viewmodels.CurrentReceiptViewModel
+import com.gilded.R
+import com.gilded.models.Receipt
+import com.gilded.recyclerview.ReceiptsRecyclerViewAdapter
+import com.gilded.viewmodels.ReceiptsViewModel
 import java.util.Date
 import kotlin.random.Random
-import kotlin.random.nextLong
 
 class HomeFragment : Fragment() {
     private lateinit var receiptsRecyclerView: RecyclerView
@@ -55,8 +57,14 @@ class HomeFragment : Fragment() {
         }
 
         homeFragmentView.findViewById<Button>(R.id.testAddButton).setOnClickListener {
-            receiptsViewModel.addReceipt(Receipt("Test", Random.nextInt(-30, 30).toDouble(),
-                Date((Date().year - 100) + 2000, Date().month, Random.nextInt(1, 30)).time, "Test"))
+            receiptsViewModel.addReceipt(
+                Receipt(
+                    "Test",
+                    Random.nextInt(-30, 30).toDouble(),
+                    Date(Date().year, Date().month, Random.nextInt(1, 30)).time,
+                    "Test"
+                )
+            )
         }
 
         return homeFragmentView

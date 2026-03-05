@@ -1,6 +1,7 @@
-package com.gilded
+package com.gilded.testsamples
 
 import android.graphics.Color
+import com.gilded.models.Category
 
 object TestCategories {
     val categories: List<Category> = listOf(

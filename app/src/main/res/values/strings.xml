@@ -14,4 +14,9 @@
     <string name="amount">Quantitat</string>
     <string name="date">Data</string>
     <string name="time">Temps</string>
+
+    <string name="last_week">Ultims 7 Dies</string>
+    <string name="last_month">Ultims 30 Dies</string>
+    <string name="last_year">Ultims 365 Dies</string>
+    <string name="all_time">Tot</string>
 </resources>

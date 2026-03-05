@@ -4,8 +4,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ExpensesFragment"
+    tools:context=".fragments.ExpensesFragment"
     android:background="@color/black">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/timeBoundaries"
+        app:singleSelection="true"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+
+        app:checkedChip="@+id/lastWeek"
+
+        app:layout_constraintBottom_toTopOf="@id/expensesPieChart">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/lastWeek"
+            style="@style/Widget.Material3.Chip.Filter"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/last_week" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/lastMonth"
+            style="@style/Widget.Material3.Chip.Filter"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/last_month" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/lastYear"
+            style="@style/Widget.Material3.Chip.Filter"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/last_year" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/allTime"
+            style="@style/Widget.Material3.Chip.Filter"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/all_time" />
+
+
+
+    </com.google.android.material.chip.ChipGroup>
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/expensesPieChart"

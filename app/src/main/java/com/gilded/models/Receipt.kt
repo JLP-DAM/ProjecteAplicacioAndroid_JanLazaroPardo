@@ -1,4 +1,4 @@
-package com.gilded
+package com.gilded.models
 
 data class Receipt (
     var recipient: String,
