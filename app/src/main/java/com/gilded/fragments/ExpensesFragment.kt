@@ -31,11 +31,14 @@ import kotlin.collections.iterator
 import kotlin.collections.set
 import kotlin.getValue
 import kotlin.math.abs
+import kotlin.math.max
 
 class ExpensesFragment : Fragment() {
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
     private val categoriesViewModel: CategoriesViewModel by activityViewModels()
-    private var daysBackwards: Int = 7
+    
+    private val DAY_LENGTH = 86400000
+    private var daysBackwards: Long = 7
 
     lateinit var expensesView: View
 
@@ -56,13 +59,15 @@ class ExpensesFragment : Fragment() {
     }
 
     private fun setupChips() {
-        var oldestReceiptTimestampDay = 1
+        var oldestReceiptTimestampDay: Long = 0
 
         for (receipt in receiptsViewModel.getReceipts()) {
-            if (oldestReceiptTimestampDay <= (Date().time / 86400000) - (Date(receipt.timestamp).time / 86400000)) {continue}
+            if (oldestReceiptTimestampDay >= (Date().time - Date(receipt.timestamp).time) / DAY_LENGTH) {continue}
 
-            oldestReceiptTimestampDay = (Date(receipt.timestamp).time / 86400000).toInt()
+            oldestReceiptTimestampDay = (Date().time - Date(receipt.timestamp).time) / DAY_LENGTH
         }
+
+        oldestReceiptTimestampDay = max(6, oldestReceiptTimestampDay) + 1
 
         timeBoundariesChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             daysBackwards = when {
@@ -78,16 +83,16 @@ class ExpensesFragment : Fragment() {
     }
 
     fun update() {
-        createPieChart(expensesView)
-        createLineChart(expensesView)
+        createPieChart()
+        createLineChart()
     }
 
-    fun createPieChart(expensesView: View) {
+    fun createPieChart() {
         val expensesPieChart: PieChart = expensesView.findViewById(R.id.expensesPieChart)
 
         val expenseByCategoryHashMap: HashMap<String, Double> = HashMap()
 
-        val minimumBoundary = Date(Date().time - (daysBackwards * 86400000)).time
+        val minimumBoundary = Date(Date().time - (daysBackwards * DAY_LENGTH)).time
 
         val maximumBoundary = Date().time
 
@@ -123,10 +128,12 @@ class ExpensesFragment : Fragment() {
         expensesPieChart.legend.isEnabled = false
         expensesPieChart.description.isEnabled = true
         expensesPieChart.description.text = ""
-        expensesPieChart.isDrawHoleEnabled = false;
+        expensesPieChart.isDrawHoleEnabled = false
+
+        expensesPieChart.invalidate()
     }
 
-    fun createLineChart(expensesView: View) {
+    fun createLineChart() {
         val expensesLineChart: LineChart = expensesView.findViewById(R.id.expensesLineChart)
 
         val totalArrayList: ArrayList<Entry> = ArrayList()
@@ -145,7 +152,7 @@ class ExpensesFragment : Fragment() {
             }
         }
 
-        val minimumBoundary = Date(Date().time - (daysBackwards * 86400000)).time
+        val minimumBoundary = Date(Date().time - (daysBackwards * DAY_LENGTH)).time
 
         val maximumBoundary = Date().time
 
@@ -161,7 +168,7 @@ class ExpensesFragment : Fragment() {
             val date: Date = Date(receipt.timestamp)
 
             for (entry in totalArrayList) {
-                if (entry.x.toInt() != daysBackwards - (Date(Date().time - date.time).time / 86400000).toInt()) {
+                if (entry.x.toLong() != daysBackwards - (Date(Date().time - date.time).time / DAY_LENGTH)) {
                     continue
                 }
 
@@ -170,10 +177,8 @@ class ExpensesFragment : Fragment() {
 
             val categoryArrayList = categoryArrayListHashMap[receipt.category] ?: continue
 
-            Log.d("Days from", (Date(Date().time - date.time).time / 86400000).toString())
-
             for (entry in categoryArrayList) {
-                if (entry.x.toInt() != daysBackwards - (Date(Date().time - date.time).time / 86400000).toInt()) {
+                if (entry.x.toLong() != daysBackwards - (Date(Date().time - date.time).time / DAY_LENGTH)) {
                     continue
                 }
 
@@ -201,8 +206,6 @@ class ExpensesFragment : Fragment() {
             for (expenseEntry in categoryArrayList.value) {
                 totalPrice = totalPrice + expenseEntry.y
             }
-
-            Log.d(categoryArrayList.key, totalPrice.toString())
 
             if (totalPrice <= 0f) {continue}
 

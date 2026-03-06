@@ -19,4 +19,10 @@
     <string name="last_month">Ultims 30 Dies</string>
     <string name="last_year">Ultims 365 Dies</string>
     <string name="all_time">Tot</string>
+
+    <string name="login">Iniciar Sessió</string>
+    <string name="signin">Registrar-se</string>
+
+    <string name="email">Correu electrònic</string>
+    <string name="password">Contrasenya</string>
 </resources>

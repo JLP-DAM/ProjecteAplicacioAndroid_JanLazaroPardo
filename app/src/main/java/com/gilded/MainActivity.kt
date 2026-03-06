@@ -17,7 +17,7 @@ import com.gilded.testsamples.TestReceipts
 import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,9 +29,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { false }
+
         setContentView(R.layout.activity_main)
 
-        mainConstraintLayout = findViewById<ConstraintLayout>(R.id.main)
+        mainConstraintLayout = findViewById(R.id.main)
 
         val gradientPoints = intArrayOf(
             Color.parseColor("#121621"),

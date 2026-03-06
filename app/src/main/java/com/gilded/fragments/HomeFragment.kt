@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.fragment.app.activityViewModels
@@ -21,6 +22,8 @@ class HomeFragment : Fragment() {
     private lateinit var receiptsRecyclerView: RecyclerView
     private lateinit var receiptsRecyclerViewAdapter: ReceiptsRecyclerViewAdapter
 
+    private lateinit var currentBalanceTextView: TextView
+
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
     private val currentReceiptViewModel: CurrentReceiptViewModel by activityViewModels()
 
@@ -30,9 +33,8 @@ class HomeFragment : Fragment() {
     ): View? {
         val homeFragmentView = inflater.inflate(R.layout.fragment_home, container, false)
 
-        if (homeFragmentView != null) {
-            receiptsRecyclerView = homeFragmentView.findViewById(R.id.receipts)
-        }
+        receiptsRecyclerView = homeFragmentView.findViewById(R.id.receipts)
+        currentBalanceTextView = homeFragmentView.findViewById(R.id.currentBalance)
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -54,20 +56,22 @@ class HomeFragment : Fragment() {
 
         receiptsViewModel.receipts.observe(viewLifecycleOwner) {
             receiptsRecyclerViewAdapter.updateList(receiptsViewModel.getReceipts())
+            updateCurrentBalance()
         }
 
-        homeFragmentView.findViewById<Button>(R.id.testAddButton).setOnClickListener {
-            receiptsViewModel.addReceipt(
-                Receipt(
-                    "Test",
-                    Random.nextInt(-30, 30).toDouble(),
-                    Date(Date().year, Date().month, Random.nextInt(1, 30)).time,
-                    "Test"
-                )
-            )
-        }
+        updateCurrentBalance()
 
         return homeFragmentView
+    }
+
+    fun updateCurrentBalance() {
+        var currentBalance: Double = 0.0
+
+        for (receipt in receiptsViewModel.getReceipts()) {
+            currentBalance = currentBalance + receipt.amount
+        }
+
+        currentBalanceTextView.text = "${currentBalance.toString()}€"
     }
 
 }
