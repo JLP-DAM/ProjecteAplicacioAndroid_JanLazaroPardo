@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
     }
 
     fun updateCurrentBalance() {
-        var currentBalance: Double = 0.0
+        var currentBalance = 0.0
 
         for (receipt in receiptsViewModel.getReceipts()) {
             currentBalance = currentBalance + receipt.amount

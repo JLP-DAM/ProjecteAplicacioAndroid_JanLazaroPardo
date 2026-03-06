@@ -7,14 +7,19 @@ import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
+import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.gilded.R
 import com.gilded.models.Receipt
+import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 import java.util.Calendar
 import java.util.Date
@@ -22,6 +27,7 @@ import java.util.Date
 class ReceiptCreatorFragment : Fragment() {
 
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
+    private val categoriesViewModel: CategoriesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +43,11 @@ class ReceiptCreatorFragment : Fragment() {
 
         val createCardView: CardView = receiptCreator.findViewById(R.id.create)
         val goBackButton: ImageButton = receiptCreator.findViewById(R.id.goBack)
+
+        val categorySelectionConstraintLayout: ConstraintLayout = receiptCreator.findViewById(R.id.categorySelection)
+
+        val categoriesGridLayout: GridLayout = categorySelectionConstraintLayout.findViewById(R.id.categories)
+        val closeCategorySelectionImageButton: ImageButton = categorySelectionConstraintLayout.findViewById(R.id.closeCategorySelection)
 
         val calendar = Calendar.getInstance()
         var datePickerDialog: DatePickerDialog
@@ -89,6 +100,12 @@ class ReceiptCreatorFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            if (categoriesViewModel.getCategory(category) == null) {
+                Toast.makeText(receiptCreator.context, "Categoria no valida! Introdueix una categoria existent.", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
+
             receiptsViewModel.addReceipt(Receipt(recipient, amount, timestamp, category))
 
             goBack()
@@ -121,6 +138,35 @@ class ReceiptCreatorFragment : Fragment() {
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
 
             timePickerDialog.show()
+        }
+
+        categoryEditText.setOnClickListener {
+            categoriesGridLayout.removeAllViews()
+            categoriesGridLayout.invalidate()
+
+            categorySelectionConstraintLayout.visibility = View.VISIBLE
+
+            for (category in categoriesViewModel.getCategories()) {
+                val categoryCardView: View = inflater.inflate(R.layout.category, null)
+                val categoryNameTextView: TextView = categoryCardView.findViewById(R.id.name)
+                val categoryColorCardView: CardView = categoryCardView.findViewById(R.id.color)
+                val categorySelectButton: Button = categoryCardView.findViewById(R.id.select)
+
+                categoryNameTextView.text = category.name
+                categoryColorCardView.setCardBackgroundColor(category.color)
+
+                categoriesGridLayout.addView(categoryCardView)
+
+                categorySelectButton.setOnClickListener {
+                    categorySelectionConstraintLayout.visibility = View.GONE
+
+                    categoryEditText.setText(category.name)
+                }
+            }
+        }
+
+        closeCategorySelectionImageButton.setOnClickListener {
+            categorySelectionConstraintLayout.visibility = View.GONE
         }
 
         return receiptCreator

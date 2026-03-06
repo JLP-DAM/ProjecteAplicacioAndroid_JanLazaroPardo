@@ -18,6 +18,7 @@ import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.graphics.toColorInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         mainConstraintLayout = findViewById(R.id.main)
 
         val gradientPoints = intArrayOf(
-            Color.parseColor("#121621"),
-            Color.parseColor("#06090c"),
+            resources.getColor(R.color.black_tonal1),
+            resources.getColor(R.color.black),
         )
 
         val backgroundGradientDrawable = GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, gradientPoints)
