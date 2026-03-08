@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -145,6 +146,27 @@ class ReceiptCreatorFragment : Fragment() {
             categoriesGridLayout.invalidate()
 
             categorySelectionConstraintLayout.visibility = View.VISIBLE
+
+            val addCategoryCardView: View = inflater.inflate(R.layout.category, null)
+            val addCategoryNameTextView: TextView = addCategoryCardView.findViewById(R.id.name)
+            val addCategoryColorCardView: CardView = addCategoryCardView.findViewById(R.id.color)
+            val addCategorySelectButton: Button = addCategoryCardView.findViewById(R.id.select)
+            val addCategoryImageView: ImageView = addCategoryCardView.findViewById(R.id.image)
+
+            addCategoryNameTextView.setText("Afegir Categoria")
+            addCategoryColorCardView.setCardBackgroundColor(resources.getColor(R.color.green))
+
+            addCategoryImageView.setImageResource(R.drawable.add)
+
+            categoriesGridLayout.addView(addCategoryCardView)
+
+            addCategorySelectButton.setOnClickListener {
+                val categoryCreatorFragment = CategoryCreatorFragment()
+
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragmentContainerView, categoryCreatorFragment)
+                    ?.commit()
+            }
 
             for (category in categoriesViewModel.getCategories()) {
                 val categoryCardView: View = inflater.inflate(R.layout.category, null)

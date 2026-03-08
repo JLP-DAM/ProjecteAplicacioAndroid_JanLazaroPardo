@@ -25,4 +25,8 @@
 
     <string name="email">Correu electrònic</string>
     <string name="password">Contrasenya</string>
+
+    <string name="create_category">Crear categoria</string>
+
+    <string name="pick_color">Seleccionar color</string>
 </resources>
