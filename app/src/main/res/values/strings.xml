@@ -3,6 +3,7 @@
 
     <string name="home">Inici</string>
     <string name="add">Afegir</string>
+    <string name="income">Ingressos</string>
     <string name="expenses">Despeses</string>
 
     <string name="create_receipt">Crear rebut</string>
@@ -29,4 +30,13 @@
     <string name="create_category">Crear categoria</string>
 
     <string name="pick_color">Seleccionar color</string>
+
+    <string name="receipts">Rebuts</string>
+    <string name="receipts_help">Els rebuts es creen desde "Afegir" al menú de navegació inferior, requereixen un nom, una data/hora i categoria a la que asociar-se per facilitar-te filtrar a través dels teus rebuts i generar gràfics.</string>
+
+    <string name="categories">Categories</string>
+    <string name="categories_help">Les categories permeten filtrar entre els teus rebuts i representar-los a gràfics, les representen una imatge i un color.</string>
+
+    <string name="income_help">El menu d\'ingressos representa ingressos en un marc de temps segons categoria i total.</string>
+    <string name="expenses_help">El menu de despeses representa despeses en un marc de temps segons categoria i total.</string>
 </resources>

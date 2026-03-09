@@ -1,22 +1,21 @@
 package com.gilded.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.fragment.app.activityViewModels
-import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.R
-import com.gilded.models.Receipt
 import com.gilded.recyclerview.ReceiptsRecyclerViewAdapter
+import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
-import java.util.Date
-import kotlin.random.Random
+
 
 class HomeFragment : Fragment() {
     private lateinit var receiptsRecyclerView: RecyclerView
@@ -35,6 +34,8 @@ class HomeFragment : Fragment() {
 
         receiptsRecyclerView = homeFragmentView.findViewById(R.id.receipts)
         currentBalanceTextView = homeFragmentView.findViewById(R.id.currentBalance)
+
+        val helpButton: Button = homeFragmentView.findViewById(R.id.help)
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -60,6 +61,33 @@ class HomeFragment : Fragment() {
         }
 
         updateCurrentBalance()
+
+        helpButton.setOnClickListener {
+            val helpFragment = HelpFragment()
+
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentContainerView, helpFragment)
+                ?.commit()
+        }
+
+        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                val position = viewHolder.getAdapterPosition()
+                receiptsViewModel.removeReceipt(position)
+                receiptsRecyclerViewAdapter.notifyDataSetChanged()
+            }
+        }
+
+        val receiptTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        receiptTouchHelper.attachToRecyclerView(receiptsRecyclerView)
 
         return homeFragmentView
     }
