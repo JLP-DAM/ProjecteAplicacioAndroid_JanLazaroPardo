@@ -39,4 +39,8 @@
 
     <string name="income_help">El menu d\'ingressos representa ingressos en un marc de temps segons categoria i total.</string>
     <string name="expenses_help">El menu de despeses representa despeses en un marc de temps segons categoria i total.</string>
+
+    <string name="pick_currency">Seleccionar moneda</string>
+
+    <string name="search">Busca...</string>
 </resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.SettingsFragment"
+    android:background="@color/black">
+
+    <ImageButton
+        android:id="@+id/close"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+
+        android:background="@android:color/transparent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        android:src="@drawable/close"
+        />
+
+    <Button
+        android:id="@+id/pickCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:backgroundTint="@color/black_tonal1"
+
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+
+        app:layout_constraintTop_toBottomOf="@id/login"
+
+        android:text="@string/pick_currency"
+        android:textSize="24sp"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/currencies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@color/black"
+
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="100dp"
+        >
+
+        <ImageButton
+            android:id="@+id/closeDialog"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+
+            android:background="@android:color/transparent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            android:src="@drawable/close"
+            />
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+
+            android:textSize="24sp"
+            android:hint="@string/search"
+            android:textColorHint="@color/grey"
+            android:textColor="@color/white"
+            android:gravity="center"
+
+            android:layout_marginLeft="64dp"
+
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ScrollView
+            android:id="@+id/currenciesScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="64dp">
+
+            <LinearLayout
+                android:id="@+id/currenciesLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

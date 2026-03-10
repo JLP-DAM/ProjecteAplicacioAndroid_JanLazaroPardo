@@ -23,11 +23,11 @@
     <TextView
         android:id="@+id/receiptsTitle"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="40dp"
 
         android:text="@string/receipts"
         android:fontFamily="@font/montserrat_extrabold"
-        android:textSize="50sp"
+        android:textSize="30sp"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -55,11 +55,11 @@
     <TextView
         android:id="@+id/categoriesTitle"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="40dp"
 
         android:text="@string/categories"
         android:fontFamily="@font/montserrat_extrabold"
-        android:textSize="50sp"
+        android:textSize="30sp"
 
         app:layout_constraintTop_toBottomOf="@id/receipts"
         app:layout_constraintLeft_toLeftOf="@id/receipts"
@@ -86,11 +86,11 @@
     <TextView
         android:id="@+id/incomeTitle"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="40dp"
 
         android:text="@string/income"
         android:fontFamily="@font/montserrat_extrabold"
-        android:textSize="50sp"
+        android:textSize="30sp"
 
         app:layout_constraintTop_toBottomOf="@id/categories"
         app:layout_constraintLeft_toLeftOf="@id/categories"
@@ -117,11 +117,11 @@
     <TextView
         android:id="@+id/expensesTitle"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="40dp"
 
         android:text="@string/expenses"
         android:fontFamily="@font/montserrat_extrabold"
-        android:textSize="50sp"
+        android:textSize="30sp"
 
         app:layout_constraintTop_toBottomOf="@id/income"
         app:layout_constraintLeft_toLeftOf="@id/income"
