@@ -10,6 +10,6 @@ interface ReceiptService {
     @GET("/gilded/receipts")
     suspend fun getReceipts(): Response<List<Receipt>>
 
-    @POST
+    @POST("/gilded/receipts")
     suspend fun postReceipt(receipt: Receipt)
 }
