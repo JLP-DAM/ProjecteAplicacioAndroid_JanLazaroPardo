@@ -25,6 +25,7 @@
     <string name="login">Iniciar Sessió</string>
     <string name="signin">Registrar-se</string>
 
+    <string name="username">Nom d\'usuari</string>
     <string name="email">Correu electrònic</string>
     <string name="password">Contrasenya</string>
 

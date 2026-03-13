@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -36,7 +37,7 @@ class HomeFragment : Fragment() {
         currentBalanceTextView = homeFragmentView.findViewById(R.id.currentBalance)
 
         val helpButton: Button = homeFragmentView.findViewById(R.id.help)
-        val settingsButton: Button = homeFragmentView.findViewById(R.id.settings)
+        val settingsButton: ImageButton = homeFragmentView.findViewById(R.id.settings)
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 

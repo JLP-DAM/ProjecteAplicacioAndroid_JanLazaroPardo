@@ -1,15 +1,17 @@
 package com.gilded.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.gilded.R
 import java.util.Currency
@@ -24,7 +26,8 @@ class SettingsFragment : Fragment() {
 
         val pickCurrencyButton: Button = settingsFragmentView.findViewById(R.id.pickCurrency)
         val currenciesConstraintLayout: ConstraintLayout = settingsFragmentView.findViewById(R.id.currencies)
-        val currenciesLinearLayout: LinearLayout = settingsFragmentView.findViewById(R.id.currenciesLinearLayout)
+        val currenciesScrollView: ScrollView = currenciesConstraintLayout.findViewById(R.id.currenciesScrollView)
+        val currenciesLinearLayout: LinearLayout = currenciesScrollView.findViewById(R.id.currenciesLinearLayout)
         val closeDialogImageButton: ImageButton = settingsFragmentView.findViewById(R.id.closeDialog)
 
         val closeButton: ImageButton = settingsFragmentView.findViewById(R.id.close)
@@ -39,10 +42,9 @@ class SettingsFragment : Fragment() {
 
             currencyCardView.setOnClickListener {
                 currenciesConstraintLayout.visibility = View.GONE
-
-
             }
         }
+
 
         pickCurrencyButton.setOnClickListener {
             currenciesConstraintLayout.visibility = View.VISIBLE
@@ -60,6 +62,6 @@ class SettingsFragment : Fragment() {
                 ?.commit()
         }
 
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return settingsFragmentView
     }
 }

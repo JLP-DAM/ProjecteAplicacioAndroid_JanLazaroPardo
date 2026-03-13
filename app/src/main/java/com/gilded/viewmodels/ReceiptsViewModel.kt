@@ -28,23 +28,10 @@ class ReceiptsViewModel: ViewModel() {
         return _receipts.value!![index]
     }
 
-    fun getReceiptIndex(receipt: Receipt): Int? {
-        var index: Int? = -1
-        var found = false;
+    fun getReceiptIndex(receipt: Receipt?): Int {
+        if (receipt == null) {return -1}
 
-        for (otherReceipt in _receipts.value!!) {
-            index = index!! + 1
-            if (otherReceipt.id != receipt.id) {continue}
-
-            found = true
-            break
-        }
-
-        if (!found) {
-            index = -1
-        }
-
-        return index
+        return _receipts.value!!.indexOf(receipt)
     }
 
     fun addReceipt(receipt: Receipt) {

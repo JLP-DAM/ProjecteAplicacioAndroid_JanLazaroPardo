@@ -45,7 +45,7 @@ class ReceiptViewerFragment : Fragment() {
         goBackButton.setOnClickListener { goBack() }
 
         deleteCardView.setOnClickListener {
-            receiptsViewModel.removeReceipt()
+            receiptsViewModel.removeReceipt(receiptsViewModel.getReceiptIndex(currentReceiptViewModel.receipt.value))
 
             goBack()
         }

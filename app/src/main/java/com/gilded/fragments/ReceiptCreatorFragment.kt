@@ -62,6 +62,9 @@ class ReceiptCreatorFragment : Fragment() {
         timestamp["hour"] = Date().hours
         timestamp["minute"] = Date().minutes
 
+        dateEditText.text = SpannableStringBuilder("${timestamp["day"]}/${timestamp["month"]!! + 1}/${timestamp["year"]!! + 1900}")
+        timeEditText.text = SpannableStringBuilder("${timestamp["hour"]}:${timestamp["minute"]}")
+
         fun goBack() {
             val homeFragment = HomeFragment()
 
@@ -75,14 +78,6 @@ class ReceiptCreatorFragment : Fragment() {
         createCardView.setOnClickListener {
             val recipient = recipientEditText.text.toString()
             val amount = amountEditText.text.toString().toDoubleOrNull()
-
-            val timestampTime = Date(
-                timestamp["year"]!!,
-                timestamp["month"]!!,
-                timestamp["day"]!!,
-                timestamp["hour"]!!,
-                timestamp["minute"]!!,
-            ).time
 
             val timestamp = Date(
                 timestamp["year"]!!,

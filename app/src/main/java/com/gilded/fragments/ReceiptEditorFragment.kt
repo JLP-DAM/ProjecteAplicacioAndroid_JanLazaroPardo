@@ -69,7 +69,7 @@ class ReceiptEditorFragment : Fragment() {
 
         recipientEditText.text = SpannableStringBuilder(currentReceipt.recipient)
         amountEditText.text = SpannableStringBuilder(currentReceipt.amount.toString())
-        dateEditText.text = SpannableStringBuilder("${timestamp["day"]}/${timestamp["month"]!! + 1}/${timestamp["year"]}")
+        dateEditText.text = SpannableStringBuilder("${timestamp["day"]}/${timestamp["month"]!! + 1}/${timestamp["year"]!! + 1900}")
         timeEditText.text = SpannableStringBuilder("${timestamp["hour"]}:${timestamp["minute"]}")
         categoryEditText.text = SpannableStringBuilder(currentReceipt.category)
 
