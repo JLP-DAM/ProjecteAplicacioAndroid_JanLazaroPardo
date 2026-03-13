@@ -36,6 +36,7 @@ class CategoriesViewModel: ViewModel() {
             if (category.name != name) {continue}
 
             foundCategory = category
+            break
         }
 
         return foundCategory

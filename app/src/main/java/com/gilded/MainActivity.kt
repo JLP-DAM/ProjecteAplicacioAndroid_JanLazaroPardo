@@ -3,6 +3,7 @@ package com.gilded
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +20,8 @@ import com.gilded.viewmodels.ReceiptsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.graphics.toColorInt
+import com.gilded.services.ReceiptAPI
+import kotlinx.coroutines.CoroutineScope
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,9 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         mainConstraintLayout.background = backgroundGradientDrawable
 
-        for (receipt in TestReceipts.receipts) {
-            receiptsViewModel.addReceipt(receipt)
-        }
+        receiptsViewModel.loadReceipts()
 
         for (category in TestCategories.categories) {
             categoriesViewModel.addCategory(category)

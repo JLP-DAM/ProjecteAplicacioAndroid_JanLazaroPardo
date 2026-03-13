@@ -11,10 +11,12 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.R
+import com.gilded.viewmodels.ReceiptsViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 
 class ReceiptViewerFragment : Fragment() {
+    private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
     private val currentReceiptViewModel: CurrentReceiptViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -27,6 +29,7 @@ class ReceiptViewerFragment : Fragment() {
         val amountTextView: TextView = receiptViewer.findViewById(R.id.amount)
         val timestampTextView: TextView = receiptViewer.findViewById(R.id.timestamp)
         val categoryTextView: TextView = receiptViewer.findViewById(R.id.category)
+        val editImageButton: ImageButton = receiptViewer.findViewById(R.id.edit)
 
         val deleteCardView = receiptViewer.findViewById<CardView>(R.id.delete)
         val goBackButton = receiptViewer.findViewById<ImageButton>(R.id.goBack)
@@ -42,6 +45,8 @@ class ReceiptViewerFragment : Fragment() {
         goBackButton.setOnClickListener { goBack() }
 
         deleteCardView.setOnClickListener {
+            receiptsViewModel.removeReceipt()
+
             goBack()
         }
 
@@ -57,6 +62,14 @@ class ReceiptViewerFragment : Fragment() {
             timestampTextView.text = formattedDate
 
             categoryTextView.text = receipt.category
+        }
+
+        editImageButton.setOnClickListener {
+            val receiptEditorFragment = ReceiptEditorFragment()
+
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentContainerView, receiptEditorFragment)
+                ?.commit()
         }
 
         return receiptViewer
