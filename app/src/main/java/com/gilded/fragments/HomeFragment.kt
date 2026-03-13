@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
         currentBalanceTextView = homeFragmentView.findViewById(R.id.currentBalance)
 
         val helpButton: Button = homeFragmentView.findViewById(R.id.help)
+        val settingsButton: Button = homeFragmentView.findViewById(R.id.settings)
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -70,6 +71,14 @@ class HomeFragment : Fragment() {
                 ?.commit()
         }
 
+        settingsButton.setOnClickListener {
+            val settingsFragment = SettingsFragment()
+
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentContainerView, settingsFragment)
+                ?.commit()
+        }
+
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -101,5 +110,4 @@ class HomeFragment : Fragment() {
 
         currentBalanceTextView.text = "${currentBalance.toString()}€"
     }
-
 }
