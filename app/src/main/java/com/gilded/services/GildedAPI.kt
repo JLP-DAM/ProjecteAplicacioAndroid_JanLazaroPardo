@@ -25,10 +25,11 @@ class GildedAPI {
 
                 receiptAPI = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsonDateFormat))
-                    .baseUrl("http://10.0.2.2:2006/gilded/")
+                    .baseUrl("http://129.80.185.152:2006/gilded/")
                     .client(unsafeOkHttpClient)
                     .build()
                     .create(GildedService::class.java)
+
             }
             return receiptAPI!!
         }

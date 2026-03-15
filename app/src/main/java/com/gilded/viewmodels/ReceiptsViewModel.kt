@@ -1,5 +1,6 @@
 package com.gilded.viewmodels
 
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -73,6 +74,7 @@ class ReceiptsViewModel: ViewModel() {
         foundReceipt.amount = receipt.amount
         foundReceipt.timestamp = receipt.timestamp
         foundReceipt.category = receipt.category
+        foundReceipt.ownerId = receipt.ownerId
 
         viewModelScope.launch {
             GildedAPI.API().updateReceipt(receipt)
