@@ -22,7 +22,7 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val settingsFragmentView: View = inflater.inflate(R.layout.fragment_settings, container, false)
+        val settingsFragmentView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         val pickCurrencyButton: Button = settingsFragmentView.findViewById(R.id.pickCurrency)
         val currenciesConstraintLayout: ConstraintLayout = settingsFragmentView.findViewById(R.id.currencies)

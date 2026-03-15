@@ -109,7 +109,7 @@ class ReceiptEditorFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            receiptsViewModel.updateReceipt(Receipt(currentReceipt.id, recipient, amount, timestamp, category))
+            receiptsViewModel.updateReceipt(Receipt(currentReceipt.id, recipient, amount, timestamp, category, currentReceipt.ownerId))
 
             goBack()
         }

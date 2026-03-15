@@ -1,12 +1,11 @@
 package com.gilded.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.R
@@ -22,10 +21,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.time.YearMonth
-import java.util.Calendar
 import java.util.Date
 import kotlin.collections.iterator
 import kotlin.collections.set
@@ -33,29 +29,47 @@ import kotlin.getValue
 import kotlin.math.abs
 import kotlin.math.max
 
-class ExpensesFragment : Fragment() {
+class TransactionsFragment : Fragment() {
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
     private val categoriesViewModel: CategoriesViewModel by activityViewModels()
     
     private val DAY_LENGTH = 86400000
     private var daysBackwards: Long = 7
 
-    lateinit var expensesView: View
+    private var mode = true
+
+    lateinit var transactionsFragmentView: View
 
     lateinit var timeBoundariesChipGroup: ChipGroup
+
+    lateinit var incomeButton: Button
+    lateinit var expensesButton: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        expensesView = inflater.inflate(R.layout.fragment_expenses, container, false)
+        transactionsFragmentView = inflater.inflate(R.layout.fragment_transactions, container, false)
 
-        timeBoundariesChipGroup = expensesView.findViewById(R.id.timeBoundaries)
+        timeBoundariesChipGroup = transactionsFragmentView.findViewById(R.id.timeBoundaries)
+
+        incomeButton = transactionsFragmentView.findViewById(R.id.income)
+        expensesButton = transactionsFragmentView.findViewById(R.id.expenses)
+
+        incomeButton.setOnClickListener {
+            mode = true
+            update()
+        }
+
+        expensesButton.setOnClickListener {
+            mode = false
+            update()
+        }
 
         setupChips()
         update()
 
-        return expensesView
+        return transactionsFragmentView
     }
 
     private fun setupChips() {
@@ -83,12 +97,15 @@ class ExpensesFragment : Fragment() {
     }
 
     fun update() {
+        incomeButton.setBackgroundColor(if (mode) resources.getColor(R.color.black_tonal2) else resources.getColor(R.color.black_tonal1))
+        expensesButton.setBackgroundColor(if (!mode) resources.getColor(R.color.black_tonal2) else resources.getColor(R.color.black_tonal1))
+
         createPieChart()
         createLineChart()
     }
 
     fun createPieChart() {
-        val expensesPieChart: PieChart = expensesView.findViewById(R.id.expensesPieChart)
+        val pieChart: PieChart = transactionsFragmentView.findViewById(R.id.pieChart)
 
         val expenseByCategoryHashMap: HashMap<String, Double> = HashMap()
 
@@ -97,7 +114,7 @@ class ExpensesFragment : Fragment() {
         val maximumBoundary = Date().time
 
         for (receipt in receiptsViewModel.getReceipts()) {
-            if (receipt.amount >= 0) {
+            if ((!mode && receipt.amount >= 0) || (mode && receipt.amount < 0)) {
                 continue
             }
 
@@ -122,19 +139,19 @@ class ExpensesFragment : Fragment() {
 
         val data = PieData(dataSet)
 
-        expensesPieChart.data = data
-        expensesPieChart.centerTextRadiusPercent = 0f
-        expensesPieChart.isDrawHoleEnabled = true
-        expensesPieChart.legend.isEnabled = false
-        expensesPieChart.description.isEnabled = true
-        expensesPieChart.description.text = ""
-        expensesPieChart.isDrawHoleEnabled = false
+        pieChart.data = data
+        pieChart.centerTextRadiusPercent = 0f
+        pieChart.isDrawHoleEnabled = true
+        pieChart.legend.isEnabled = false
+        pieChart.description.isEnabled = true
+        pieChart.description.text = ""
+        pieChart.isDrawHoleEnabled = false
 
-        expensesPieChart.invalidate()
+        pieChart.invalidate()
     }
 
     fun createLineChart() {
-        val expensesLineChart: LineChart = expensesView.findViewById(R.id.expensesLineChart)
+        val lineChart: LineChart = transactionsFragmentView.findViewById(R.id.lineChart)
 
         val totalArrayList: ArrayList<Entry> = ArrayList()
 
@@ -157,7 +174,7 @@ class ExpensesFragment : Fragment() {
         val maximumBoundary = Date().time
 
         for (receipt in receiptsViewModel.getReceipts()) {
-            if (receipt.amount >= 0) {
+            if ((!mode && receipt.amount >= 0) || (mode && receipt.amount < 0)) {
                 continue
             }
 
@@ -225,16 +242,16 @@ class ExpensesFragment : Fragment() {
         val white = resources.getColor(R.color.white)
 
         val data = LineData(dataSets)
-        expensesLineChart.data = data
-        expensesLineChart.setBackgroundColor(resources.getColor(R.color.black))
-        expensesLineChart.legend.textColor = white
-        expensesLineChart.xAxis.textColor = white
-        expensesLineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        expensesLineChart.axisLeft.textColor = white
-        expensesLineChart.axisRight.setDrawLabels(false)
-        expensesLineChart.description.text = ""
-        expensesLineChart.axisLeft.axisMinimum = 0f
-        expensesLineChart.axisLeft.mDecimals = 0
-        expensesLineChart.animateXY(2000, 2000, Easing.EaseInSine)
+        lineChart.data = data
+        lineChart.setBackgroundColor(resources.getColor(R.color.black))
+        lineChart.legend.textColor = white
+        lineChart.xAxis.textColor = white
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.axisLeft.textColor = white
+        lineChart.axisRight.setDrawLabels(false)
+        lineChart.description.text = ""
+        lineChart.axisLeft.axisMinimum = 0f
+        lineChart.axisLeft.mDecimals = 0
+        lineChart.animateXY(2000, 2000, Easing.EaseInSine)
     }
 }

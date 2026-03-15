@@ -13,9 +13,9 @@
         />
 
     <item
-        android:id="@+id/expenses"
+        android:id="@+id/transactions"
         android:icon="@drawable/expenses"
-        android:title="@string/expenses"
+        android:title="@string/transactions"
         />
 
 </menu>

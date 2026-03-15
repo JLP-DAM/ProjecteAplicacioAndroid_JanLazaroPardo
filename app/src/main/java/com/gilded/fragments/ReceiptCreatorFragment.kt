@@ -21,6 +21,7 @@ import androidx.fragment.app.activityViewModels
 import com.gilded.R
 import com.gilded.models.Receipt
 import com.gilded.viewmodels.CategoriesViewModel
+import com.gilded.viewmodels.CurrentUserViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 import java.util.Calendar
 import java.util.Date
@@ -28,7 +29,10 @@ import java.util.Date
 class ReceiptCreatorFragment : Fragment() {
 
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
+
     private val categoriesViewModel: CategoriesViewModel by activityViewModels()
+
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,7 +106,7 @@ class ReceiptCreatorFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            receiptsViewModel.addReceipt(Receipt(null, recipient, amount, timestamp, category))
+            receiptsViewModel.addReceipt(Receipt(null, recipient, amount, timestamp, category, currentUserViewModel.user.value.id!!))
 
             goBack()
         }

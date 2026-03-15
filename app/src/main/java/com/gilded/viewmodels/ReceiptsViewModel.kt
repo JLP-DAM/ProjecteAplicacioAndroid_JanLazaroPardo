@@ -1,16 +1,26 @@
 package com.gilded.viewmodels
 
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.gilded.models.Receipt
 import androidx.lifecycle.viewModelScope
 import com.gilded.services.GildedAPI
 import kotlinx.coroutines.launch
+import kotlin.getValue
 
 class ReceiptsViewModel: ViewModel() {
+
     private val _receipts = MutableLiveData<List<Receipt>>()
     val receipts: LiveData<List<Receipt>> = _receipts
+
+    private val _ownerId = MutableLiveData<Long>()
+
+    fun setOwnerId(ownerId: Long) {
+        _ownerId.value = ownerId
+    }
 
     fun setReceipts(receipts: List<Receipt>) {
         _receipts.value = receipts
@@ -71,7 +81,7 @@ class ReceiptsViewModel: ViewModel() {
 
     fun loadReceipts() {
         viewModelScope.launch {
-            val result = GildedAPI.API().getReceipts()
+            val result = GildedAPI.API().getReceipts(_ownerId.value!!)
 
             _receipts.value = result.body() ?: emptyList()
         }

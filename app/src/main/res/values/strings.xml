@@ -5,6 +5,7 @@
     <string name="add">Afegir</string>
     <string name="income">Ingressos</string>
     <string name="expenses">Despeses</string>
+    <string name="transactions">Transaccions</string>
 
     <string name="create_receipt">Crear rebut</string>
     <string name="edit_receipt">Editar rebut</string>
@@ -45,4 +46,6 @@
     <string name="pick_currency">Seleccionar moneda</string>
 
     <string name="search">Busca...</string>
+
+    <string name="reset_filter">Restablir filtre</string>
 </resources>

@@ -78,6 +78,8 @@
         app:layout_constraintTop_toBottomOf="@id/username"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+
+        android:inputType="textEmailAddress"
         />
 
     <EditText
@@ -96,6 +98,8 @@
         app:layout_constraintTop_toBottomOf="@id/email"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+
+        android:inputType="textPassword"
         />
 
     <Button

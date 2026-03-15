@@ -5,15 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.gilded.fragments.ExpensesFragment
+import com.gilded.fragments.TransactionsFragment
 import com.gilded.fragments.HomeFragment
 import com.gilded.fragments.ReceiptCreatorFragment
-import com.gilded.testsamples.TestCategories
-import com.gilded.viewmodels.CategoriesViewModel
-import com.gilded.viewmodels.ReceiptsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.gilded.fragments.LoginFragment
@@ -21,9 +17,6 @@ import com.gilded.fragments.LoginFragment
 class MainActivity : AppCompatActivity() {
 
     lateinit var mainConstraintLayout: ConstraintLayout
-
-    private val receiptsViewModel: ReceiptsViewModel by viewModels()
-    private val categoriesViewModel: CategoriesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         mainConstraintLayout.background = backgroundGradientDrawable
 
-        receiptsViewModel.loadReceipts()
-
-        for (category in TestCategories.categories) {
-            categoriesViewModel.addCategory(category)
-        }
-
         val loginFragment = LoginFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainerView, loginFragment)
@@ -61,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             val selectedFragment: Fragment? = when (clickedItem.itemId) {
                 R.id.home -> HomeFragment()
                 R.id.add -> ReceiptCreatorFragment()
-                R.id.expenses -> ExpensesFragment()
+                R.id.transactions -> TransactionsFragment()
 
                 else -> null
             }
@@ -78,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationVisibleHashMap = HashMap<String, Boolean?>()
 
         bottomNavigationVisibleHashMap["HomeFragment"] = true
-        bottomNavigationVisibleHashMap["ExpensesFragment"] = true
+        bottomNavigationVisibleHashMap["TransactionsFragment"] = true
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(
             object: FragmentManager.FragmentLifecycleCallbacks() {

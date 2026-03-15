@@ -1,5 +1,6 @@
 package com.gilded.services
 
+import com.gilded.models.Category
 import com.gilded.models.Receipt
 import com.gilded.models.User
 import retrofit2.Response
@@ -12,21 +13,27 @@ import retrofit2.http.Path
 
 interface GildedService {
 
-    @GET("/receipts")
-    suspend fun getReceipts(): Response<List<Receipt>>
+    @GET("receipts/{ownerId}")
+    suspend fun getReceipts(@Path("ownerId") ownerId: Long): Response<List<Receipt>>
 
-    @POST("/receipts")
+    @POST("receipts")
     suspend fun postReceipt(@Body receipt: Receipt): Receipt
 
-    @DELETE("/receipts/{id}")
+    @DELETE("receipts/{id}")
     suspend fun deleteReceipt(@Path("id") id: Long)
 
-    @PUT("/receipts")
+    @PUT("receipts")
     suspend fun updateReceipt(@Body receipt: Receipt)
 
-    @GET("/users/{email}/{password}")
+    @GET("users/{email}/{password}")
     suspend fun getUser(@Path("email") email: String, @Path("password") password: String): Response<User?>
 
-    @POST("/users")
-    suspend fun postUser(@Body user: User): User?
+    @POST("users")
+    suspend fun postUser(@Body user: User): User
+
+    @GET("categories/{ownerId}")
+    suspend fun getCategories(@Path("ownerId") ownerId: Long): Response<List<Category>>
+
+    @POST("categories")
+    suspend fun postCategory(@Body category: Category): Category
 }

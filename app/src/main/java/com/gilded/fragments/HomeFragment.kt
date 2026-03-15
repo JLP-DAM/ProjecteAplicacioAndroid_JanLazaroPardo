@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gilded.R
+import com.gilded.models.Receipt
 import com.gilded.recyclerview.ReceiptsRecyclerViewAdapter
 import com.gilded.viewmodels.CurrentReceiptViewModel
+import com.gilded.viewmodels.FilterViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 
 
@@ -25,7 +27,10 @@ class HomeFragment : Fragment() {
     private lateinit var currentBalanceTextView: TextView
 
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
+
     private val currentReceiptViewModel: CurrentReceiptViewModel by activityViewModels()
+
+    private val filterViewModel: FilterViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +43,7 @@ class HomeFragment : Fragment() {
 
         val helpButton: Button = homeFragmentView.findViewById(R.id.help)
         val settingsButton: ImageButton = homeFragmentView.findViewById(R.id.settings)
+        val filterButton: ImageButton = homeFragmentView.findViewById(R.id.filter)
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -80,6 +86,14 @@ class HomeFragment : Fragment() {
                 ?.commit()
         }
 
+        filterButton.setOnClickListener {
+            val filterFragment = FilterFragment()
+
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentContainerView, filterFragment)
+                ?.commit()
+        }
+
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -99,6 +113,12 @@ class HomeFragment : Fragment() {
         val receiptTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         receiptTouchHelper.attachToRecyclerView(receiptsRecyclerView)
 
+        filterViewModel.filteredCategory.observe(viewLifecycleOwner) { updateFilter() }
+
+        filterViewModel.incomeVisible.observe(viewLifecycleOwner) { updateFilter() }
+
+        filterViewModel.expensesVisible.observe(viewLifecycleOwner) { updateFilter() }
+
         return homeFragmentView
     }
 
@@ -110,5 +130,22 @@ class HomeFragment : Fragment() {
         }
 
         currentBalanceTextView.text = "${currentBalance.toString()}€"
+    }
+
+    fun updateFilter() {
+        val newReceipts = ArrayList<Receipt>()
+
+        for (receipt in receiptsViewModel.getReceipts()) {
+            if (filterViewModel.filteredCategory.value != null) {
+                if (receipt.category != filterViewModel.filteredCategory.value) {continue}
+            }
+
+            if (receipt.amount >= 0 && !filterViewModel.incomeVisible.value!!) {continue}
+            if (receipt.amount < 0 && !filterViewModel.expensesVisible.value!!) {continue}
+
+            newReceipts.add(receipt)
+        }
+
+        receiptsRecyclerViewAdapter.updateList(newReceipts)
     }
 }

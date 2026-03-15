@@ -14,12 +14,14 @@ import androidx.fragment.app.activityViewModels
 import com.gilded.R
 import com.gilded.models.Category
 import com.gilded.viewmodels.CategoriesViewModel
+import com.gilded.viewmodels.CurrentUserViewModel
 import com.github.dhaval2404.colorpicker.ColorPickerDialog
 import com.github.dhaval2404.colorpicker.model.ColorShape
 import kotlin.getValue
 
 class CategoryCreatorFragment : Fragment() {
     private val categoriesViewModel: CategoriesViewModel by activityViewModels()
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +71,7 @@ class CategoryCreatorFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            categoriesViewModel.addCategory(Category(name, currentlySelectedColor))
+            categoriesViewModel.addCategory(Category(null, name, currentlySelectedColor, currentUserViewModel.user.value.id!!))
 
             goBack()
         }
