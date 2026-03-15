@@ -80,7 +80,7 @@
         />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/signin"
         android:layout_width="match_parent"
         android:layout_height="50dp"
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gilded.models.Receipt
 import androidx.lifecycle.viewModelScope
-import com.gilded.services.ReceiptAPI
+import com.gilded.services.GildedAPI
 import kotlinx.coroutines.launch
 
 class ReceiptsViewModel: ViewModel() {
@@ -36,7 +36,7 @@ class ReceiptsViewModel: ViewModel() {
 
     fun addReceipt(receipt: Receipt) {
         viewModelScope.launch {
-            val completeReceipt = ReceiptAPI.API().postReceipt(receipt)
+            val completeReceipt = GildedAPI.API().postReceipt(receipt)
 
             val receiptsClone = _receipts.value?.toMutableList() ?: mutableListOf()
             receiptsClone.add(completeReceipt)
@@ -52,7 +52,7 @@ class ReceiptsViewModel: ViewModel() {
         viewModelScope.launch {
             if (receipt == null) {return@launch}
 
-            ReceiptAPI.API().deleteReceipt(receipt.id!!)
+            GildedAPI.API().deleteReceipt(receipt.id!!)
         }
     }
 
@@ -65,13 +65,13 @@ class ReceiptsViewModel: ViewModel() {
         foundReceipt.category = receipt.category
 
         viewModelScope.launch {
-            ReceiptAPI.API().updateReceipt(receipt)
+            GildedAPI.API().updateReceipt(receipt)
         }
     }
 
     fun loadReceipts() {
         viewModelScope.launch {
-            val result = ReceiptAPI.API().getReceipts()
+            val result = GildedAPI.API().getReceipts()
 
             _receipts.value = result.body() ?: emptyList()
         }

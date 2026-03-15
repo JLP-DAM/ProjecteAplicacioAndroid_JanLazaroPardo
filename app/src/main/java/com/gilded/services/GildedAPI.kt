@@ -9,12 +9,12 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-class ReceiptAPI {
+class GildedAPI {
     companion object {
-        private var receiptAPI: ReceiptService? = null
+        private var receiptAPI: GildedService? = null
 
         @Synchronized
-        fun API(): ReceiptService {
+        fun API(): GildedService {
             if (receiptAPI == null) {
 
                 val gsonDateFormat = GsonBuilder()
@@ -25,10 +25,10 @@ class ReceiptAPI {
 
                 receiptAPI = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsonDateFormat))
-                    .baseUrl("http://10.0.2.2:2006")
+                    .baseUrl("http://10.0.2.2:2006/gilded/")
                     .client(unsafeOkHttpClient)
                     .build()
-                    .create(ReceiptService::class.java)
+                    .create(GildedService::class.java)
             }
             return receiptAPI!!
         }

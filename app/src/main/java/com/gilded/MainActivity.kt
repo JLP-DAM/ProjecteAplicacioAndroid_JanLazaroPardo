@@ -1,9 +1,7 @@
 package com.gilded
 
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -14,14 +12,11 @@ import com.gilded.fragments.ExpensesFragment
 import com.gilded.fragments.HomeFragment
 import com.gilded.fragments.ReceiptCreatorFragment
 import com.gilded.testsamples.TestCategories
-import com.gilded.testsamples.TestReceipts
 import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.graphics.toColorInt
-import com.gilded.services.ReceiptAPI
-import kotlinx.coroutines.CoroutineScope
+import com.gilded.fragments.LoginFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,9 +50,9 @@ class MainActivity : AppCompatActivity() {
             categoriesViewModel.addCategory(category)
         }
 
-        val homeFragment = HomeFragment()
+        val loginFragment = LoginFragment()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, homeFragment)
+            .replace(R.id.fragmentContainerView, loginFragment)
             .commit()
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationMenu)
