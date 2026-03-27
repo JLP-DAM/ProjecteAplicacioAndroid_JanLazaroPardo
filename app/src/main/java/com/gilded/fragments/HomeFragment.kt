@@ -9,15 +9,21 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gilded.R
 import com.gilded.models.Receipt
 import com.gilded.recyclerview.ReceiptsRecyclerViewAdapter
+import com.gilded.services.PreferencesKeys
+import com.gilded.services.SettingsDataStore
 import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.viewmodels.FilterViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -129,7 +135,10 @@ class HomeFragment : Fragment() {
             currentBalance = currentBalance + receipt.amount
         }
 
-        currentBalanceTextView.text = "${currentBalance.toString()}€"
+        lifecycleScope.launch(Dispatchers.Main) {
+            val currencySymbol = SettingsDataStore.getCurrencySymbol(requireContext())
+            currentBalanceTextView.text = "${currentBalance}${currencySymbol.first()}"
+        }
     }
 
     fun updateFilter() {
