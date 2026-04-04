@@ -104,5 +104,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/emissions"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="40dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:gravity="center"
+        android:text="Nu.m Co2 KG"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

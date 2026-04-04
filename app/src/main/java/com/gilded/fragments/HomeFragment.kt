@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gilded.MainActivity
 import com.gilded.R
 import com.gilded.models.Receipt
 import com.gilded.recyclerview.ReceiptsRecyclerViewAdapter
@@ -124,6 +125,8 @@ class HomeFragment : Fragment() {
         filterViewModel.incomeVisible.observe(viewLifecycleOwner) { updateFilter() }
 
         filterViewModel.expensesVisible.observe(viewLifecycleOwner) { updateFilter() }
+
+        (activity as MainActivity).getFromFirebase()
 
         return homeFragmentView
     }

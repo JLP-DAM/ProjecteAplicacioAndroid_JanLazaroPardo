@@ -1,6 +1,7 @@
 package com.gilded.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.gilded.R
 import com.gilded.services.PreferencesKeys
+import com.gilded.services.UsageData
 import com.gilded.services.preferencesDataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,6 +37,8 @@ class SettingsFragment : Fragment() {
         val closeDialogImageButton: ImageButton = settingsFragmentView.findViewById(R.id.closeDialog)
 
         val closeButton: ImageButton = settingsFragmentView.findViewById(R.id.close)
+
+        val emissionsTextView: TextView = settingsFragmentView.findViewById(R.id.emissions)
 
         for (currency in Currency.getAvailableCurrencies()) {
             val currencyCardView: View = inflater.inflate(R.layout.currency, null)
@@ -59,6 +63,14 @@ class SettingsFragment : Fragment() {
         pickCurrencyButton.setOnClickListener {
             currenciesConstraintLayout.visibility = View.VISIBLE
         }
+
+        // he trobat aquesta estatistica online en varis articles
+        // deien que són 63 KG de Co2 per Any si s'utilitza el mobil una hora al dia
+        // 63 / 365 = 0.17260273972
+        val co2KGPerHour = 0.17260273972
+        var usageHours = UsageData.usageTime / (1000 * 60 * 60)
+
+        emissionsTextView.setText("Emissions de Co2: " + String.format("%.2f", usageHours * co2KGPerHour) + " KG " + usageHours)
 
         closeDialogImageButton.setOnClickListener {
             currenciesConstraintLayout.visibility = View.GONE

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.gilded.models.Receipt
 import androidx.lifecycle.viewModelScope
 import com.gilded.services.GildedAPI
+import com.gilded.services.UsageData
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
@@ -52,6 +53,8 @@ class ReceiptsViewModel: ViewModel() {
             val receiptsClone = _receipts.value?.toMutableList() ?: mutableListOf()
             receiptsClone.add(completeReceipt)
             _receipts.value = receiptsClone
+
+            UsageData.receiptCreations = UsageData.receiptCreations + 1
         }
     }
 
@@ -64,6 +67,8 @@ class ReceiptsViewModel: ViewModel() {
             if (receipt == null) {return@launch}
 
             GildedAPI.API().deleteReceipt(receipt.id!!)
+
+            UsageData.receiptDeletions = UsageData.receiptDeletions + 1
         }
     }
 

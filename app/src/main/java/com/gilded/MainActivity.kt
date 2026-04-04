@@ -2,7 +2,9 @@ package com.gilded
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -13,10 +15,24 @@ import com.gilded.fragments.ReceiptCreatorFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.gilded.fragments.LoginFragment
+import com.gilded.services.UsageData
+import com.gilded.services.UsageData.receiptCreations
+import com.gilded.services.UsageData.receiptDeletions
+import com.gilded.services.UsageData.usageTime
+import com.gilded.viewmodels.CurrentUserViewModel
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import kotlin.getValue
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mainConstraintLayout: ConstraintLayout
+
+    private val currentUserViewModel: CurrentUserViewModel by viewModels()
+
+    var startTime = System.currentTimeMillis()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +94,9 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     val fragmentName = fragment::class.java.simpleName
 
-                    bottomNavigationView.visibility = if (bottomNavigationVisibleHashMap.get(fragmentName) != null) {
+                    UsageData.mostFrequentedFragments[fragmentName] = (UsageData.mostFrequentedFragments[fragmentName] ?: 0) + 1
+
+                    bottomNavigationView.visibility = if (bottomNavigationVisibleHashMap[fragmentName] != null) {
                         View.VISIBLE
                     } else {
                         View.GONE
@@ -89,5 +107,60 @@ class MainActivity : AppCompatActivity() {
 
             true
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        startTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        UsageData.usageTime = UsageData.usageTime + (System.currentTimeMillis() - startTime)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        UsageData.usageTime = UsageData.usageTime + (System.currentTimeMillis() - startTime)
+
+        saveToFirebase()
+    }
+
+    private val firestoreDatabase: FirebaseFirestore by lazy { Firebase.firestore }
+
+    fun saveToFirebase() {
+        Log.d("I'm supposed to be saving", "yeah true" + GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this))
+
+        val usageData = hashMapOf<String, Number>(
+            "receiptCreations" to UsageData.receiptCreations,
+            "receiptDeletions" to UsageData.receiptDeletions,
+            "usageTime" to UsageData.usageTime,
+        )
+
+        firestoreDatabase.collection("usageStats").document(currentUserViewModel.user.value!!.id!!.toString())
+            .set(usageData)
+            .addOnSuccessListener {}
+            .addOnFailureListener {}
+    }
+
+    fun getFromFirebase() {
+        Log.d("I'm supposed to be getting", "yeah true" + GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this))
+
+        firestoreDatabase.collection("usageStats").document(currentUserViewModel.user.value!!.id!!.toString())
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    receiptCreations = doc.getDouble("receiptCreations")?.toInt() ?: 0
+                    receiptDeletions = doc.getDouble("receiptDeletions")?.toInt() ?: 0
+                    usageTime = doc.getDouble("usageTime") ?: 0.0
+                }
+
+            }
+            .addOnFailureListener {
+
+            }
     }
 }
