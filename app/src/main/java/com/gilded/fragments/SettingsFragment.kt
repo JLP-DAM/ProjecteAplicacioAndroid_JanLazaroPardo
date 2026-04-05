@@ -13,17 +13,21 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.gilded.R
 import com.gilded.services.PreferencesKeys
-import com.gilded.services.UsageData
 import com.gilded.services.preferencesDataStore
+import com.gilded.viewmodels.UsageDataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Currency
+import kotlin.getValue
 
 
 class SettingsFragment : Fragment() {
+    private val usageDataViewModel: UsageDataViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +42,8 @@ class SettingsFragment : Fragment() {
 
         val closeButton: ImageButton = settingsFragmentView.findViewById(R.id.close)
 
+        val creationsTextView: TextView = settingsFragmentView.findViewById(R.id.creations)
+        val deletionsTextView: TextView = settingsFragmentView.findViewById(R.id.deletions)
         val emissionsTextView: TextView = settingsFragmentView.findViewById(R.id.emissions)
 
         for (currency in Currency.getAvailableCurrencies()) {
@@ -64,13 +70,16 @@ class SettingsFragment : Fragment() {
             currenciesConstraintLayout.visibility = View.VISIBLE
         }
 
+        creationsTextView.setText("Rebuts creats: " + usageDataViewModel.receiptCreations.value!!)
+        deletionsTextView.setText("Rebuts borrats: " + usageDataViewModel.receiptDeletions.value!!)
+
         // he trobat aquesta estatistica online en varis articles
         // deien que són 63 KG de Co2 per Any si s'utilitza el mobil una hora al dia
         // 63 / 365 = 0.17260273972
         val co2KGPerHour = 0.17260273972
-        var usageHours = UsageData.usageTime / (1000 * 60 * 60)
+        val usageHours = usageDataViewModel.usageTime.value!! / (1000 * 60 * 60)
 
-        emissionsTextView.setText("Emissions de Co2: " + String.format("%.2f", usageHours * co2KGPerHour) + " KG " + usageHours)
+        emissionsTextView.setText("Emissions de Co2: " + String.format("%.2f", usageHours * co2KGPerHour) + " KG")
 
         closeDialogImageButton.setOnClickListener {
             currenciesConstraintLayout.visibility = View.GONE

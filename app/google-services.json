@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "124581141628",
-    "project_id": "gilded-af316",
-    "storage_bucket": "gilded-af316.firebasestorage.app"
+    "project_number": "905831953764",
+    "project_id": "gilded-8a2f6",
+    "storage_bucket": "gilded-8a2f6.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:124581141628:android:b4ae7d672e60bbf4a0fdf9",
+        "mobilesdk_app_id": "1:905831953764:android:d85deb12111bdc1cc8b671",
         "android_client_info": {
           "package_name": "com.gilded"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAgaf0vOzr-Rph03D6blk6S32xtoK-E7Kw"
+          "current_key": "AIzaSyCS66z3oRTBeGsGMDZoq9pvddPujQaMzfA"
         }
       ],
       "services": {

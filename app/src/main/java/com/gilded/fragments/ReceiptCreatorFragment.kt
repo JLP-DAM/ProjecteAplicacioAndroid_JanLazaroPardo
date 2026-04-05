@@ -23,6 +23,7 @@ import com.gilded.models.Receipt
 import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.viewmodels.CurrentUserViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
+import com.gilded.viewmodels.UsageDataViewModel
 import java.util.Calendar
 import java.util.Date
 
@@ -33,6 +34,8 @@ class ReceiptCreatorFragment : Fragment() {
     private val categoriesViewModel: CategoriesViewModel by activityViewModels()
 
     private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
+    private val usageDataViewModel: UsageDataViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,6 +110,8 @@ class ReceiptCreatorFragment : Fragment() {
             }
 
             receiptsViewModel.addReceipt(Receipt(null, recipient, amount, timestamp, category, currentUserViewModel.user.value.id!!))
+
+            usageDataViewModel.incrementCreations()
 
             goBack()
         }

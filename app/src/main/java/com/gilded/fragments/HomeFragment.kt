@@ -22,6 +22,7 @@ import com.gilded.services.SettingsDataStore
 import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.viewmodels.FilterViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
+import com.gilded.viewmodels.UsageDataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -38,6 +39,7 @@ class HomeFragment : Fragment() {
     private val currentReceiptViewModel: CurrentReceiptViewModel by activityViewModels()
 
     private val filterViewModel: FilterViewModel by activityViewModels()
+    private val usageDataViewModel: UsageDataViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -126,7 +128,7 @@ class HomeFragment : Fragment() {
 
         filterViewModel.expensesVisible.observe(viewLifecycleOwner) { updateFilter() }
 
-        (activity as MainActivity).getFromFirebase()
+        usageDataViewModel.getFromFirebase()
 
         return homeFragmentView
     }

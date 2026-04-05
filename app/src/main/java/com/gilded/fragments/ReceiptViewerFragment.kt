@@ -10,10 +10,17 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.R
+import com.gilded.services.SettingsDataStore
 import com.gilded.viewmodels.FilterViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
+import com.gilded.viewmodels.UsageDataViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.sign
@@ -23,6 +30,8 @@ class ReceiptViewerFragment : Fragment() {
     private val currentReceiptViewModel: CurrentReceiptViewModel by activityViewModels()
 
     private val filterViewModel: FilterViewModel by activityViewModels()
+    private val usageDataViewModel: UsageDataViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,13 +66,18 @@ class ReceiptViewerFragment : Fragment() {
         deleteCardView.setOnClickListener {
             receiptsViewModel.removeReceipt(receiptsViewModel.getReceiptIndex(currentReceiptViewModel.receipt.value))
 
+            usageDataViewModel.incrementDeletions()
+
             goBack()
         }
 
         currentReceiptViewModel.receipt.observe(viewLifecycleOwner) {receipt ->
             recipientTextView.text = receipt.recipient
 
-            amountTextView.text = String.format("%s%s€", if (receipt.amount > 0f) "+" else "", receipt.amount)
+            lifecycleScope.launch(Dispatchers.Main) {
+                val currencySymbol = SettingsDataStore.getCurrencySymbol(recipientTextView.context)
+                amountTextView.text = String.format("%s%s%s", if (receipt.amount > 0f) "+" else "", receipt.amount, currencySymbol.first())
+            }
 
             val timestampDate = Date(receipt.timestamp)
             val formatter = SimpleDateFormat("MMMM dd, kk:mm")

@@ -16,6 +16,7 @@ import com.gilded.services.GildedAPI
 import com.gilded.viewmodels.CategoriesViewModel
 import com.gilded.viewmodels.CurrentUserViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
+import com.gilded.viewmodels.UsageDataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,6 +27,7 @@ class LoginFragment : Fragment() {
     private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
     private val receiptsViewModel: ReceiptsViewModel by activityViewModels()
     private val categoriesViewModel: CategoriesViewModel by activityViewModels()
+    private val usageDataViewModel: UsageDataViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +64,7 @@ class LoginFragment : Fragment() {
 
                     receiptsViewModel.setOwnerId(user.id!!)
                     categoriesViewModel.setOwnerId(user.id!!)
+                    usageDataViewModel.setUserId(user.id!!)
 
                     receiptsViewModel.loadReceipts()
                     categoriesViewModel.loadCategories()
