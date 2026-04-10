@@ -98,6 +98,26 @@
         android:scaleType="fitCenter"
         />
 
+    <ImageButton
+        android:id="@+id/voiceRecognition"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/profile"
+
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="30dp"
+
+        android:fontFamily="@font/montserrat_extrabold"
+
+        android:src="@drawable/settings"
+
+        android:backgroundTint="@android:color/transparent"
+
+        android:scaleType="fitCenter"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/receipts"
 

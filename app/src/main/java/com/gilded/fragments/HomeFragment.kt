@@ -1,6 +1,11 @@
 package com.gilded.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,8 +56,9 @@ class HomeFragment : Fragment() {
         currentBalanceTextView = homeFragmentView.findViewById(R.id.currentBalance)
 
         val helpButton: Button = homeFragmentView.findViewById(R.id.help)
-        val settingsButton: ImageButton = homeFragmentView.findViewById(R.id.settings)
-        val filterButton: ImageButton = homeFragmentView.findViewById(R.id.filter)
+        val settingsImageButton: ImageButton = homeFragmentView.findViewById(R.id.settings)
+        val filterImageButton: ImageButton = homeFragmentView.findViewById(R.id.filter)
+        val voiceRecognitionImageButton: ImageButton = homeFragmentView.findViewById(R.id.voiceRecognition)
 
         receiptsRecyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -87,7 +93,7 @@ class HomeFragment : Fragment() {
                 ?.commit()
         }
 
-        settingsButton.setOnClickListener {
+        settingsImageButton.setOnClickListener {
             val settingsFragment = SettingsFragment()
 
             activity?.supportFragmentManager?.beginTransaction()
@@ -95,7 +101,7 @@ class HomeFragment : Fragment() {
                 ?.commit()
         }
 
-        filterButton.setOnClickListener {
+        filterImageButton.setOnClickListener {
             val filterFragment = FilterFragment()
 
             activity?.supportFragmentManager?.beginTransaction()
@@ -121,6 +127,51 @@ class HomeFragment : Fragment() {
 
         val receiptTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
         receiptTouchHelper.attachToRecyclerView(receiptsRecyclerView)
+
+        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
+
+        speechRecognizer.setRecognitionListener(object: RecognitionListener {
+            override fun onBeginningOfSpeech() {}
+
+            override fun onBufferReceived(buffer: ByteArray?) {}
+
+            override fun onEndOfSpeech() {}
+
+            override fun onError(error: Int) {}
+
+            override fun onEvent(eventType: Int, params: Bundle?) {}
+
+            override fun onPartialResults(partialResults: Bundle?) {}
+
+            override fun onReadyForSpeech(params: Bundle?) {}
+
+            override fun onResults(results: Bundle) {
+                val data: ArrayList<String>? = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                Log.d("SpeechRecognizer", "Speech recognition results received: ${data}")
+            }
+
+            override fun onRmsChanged(rmsdB: Float) {}
+        })
+
+        val recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+
+
+        voiceRecognitionImageButton.setOnClickListener {
+            if (!SpeechRecognizer.isRecognitionAvailable(requireContext())) {
+                return@setOnClickListener
+            }
+
+            speechRecognizer.startListening(recognizerIntent)
+            
+            Thread.sleep(5000)
+
+            speechRecognizer.stopListening()
+        }
 
         filterViewModel.filteredCategory.observe(viewLifecycleOwner) { updateFilter() }
 
