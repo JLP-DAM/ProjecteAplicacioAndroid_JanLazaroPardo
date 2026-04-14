@@ -104,14 +104,12 @@
         android:layout_height="64dp"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/profile"
+        app:layout_constraintLeft_toLeftOf="@id/settings"
 
-        android:layout_marginLeft="128dp"
+        android:layout_marginLeft="64dp"
         android:layout_marginTop="30dp"
 
-        android:fontFamily="@font/montserrat_extrabold"
-
-        android:src="@drawable/settings"
+        android:src="@drawable/microphone"
 
         android:backgroundTint="@android:color/transparent"
 

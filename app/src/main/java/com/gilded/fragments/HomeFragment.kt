@@ -1,6 +1,7 @@
 package com.gilded.fragments
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,9 +30,12 @@ import com.gilded.viewmodels.CurrentReceiptViewModel
 import com.gilded.viewmodels.FilterViewModel
 import com.gilded.viewmodels.ReceiptsViewModel
 import com.gilded.viewmodels.UsageDataViewModel
+import com.google.rpc.context.AttributeContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import android.Manifest
 
 
 class HomeFragment : Fragment() {
@@ -147,7 +152,30 @@ class HomeFragment : Fragment() {
 
             override fun onResults(results: Bundle) {
                 val data: ArrayList<String>? = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                Log.d("SpeechRecognizer", "Speech recognition results received: ${data}")
+
+                if (data == null) {return}
+
+                var fragment: Fragment? = null
+
+                if (data.indexOf("inici") != -1) {
+                    fragment = HomeFragment()
+                } else if(data.indexOf("afegir") != -1) {
+                    fragment = ReceiptCreatorFragment()
+                } else if(data.indexOf("transaccions") != -1) {
+                    fragment = TransactionsFragment()
+                } else if (data.indexOf("configuració") != -1) {
+                    fragment = SettingsFragment()
+                } else if (data.indexOf("ajuda") != -1) {
+                    fragment = HelpFragment()
+                } else if (data.indexOf("filtre") != -1) {
+                    fragment = FilterFragment()
+                }
+
+                if (fragment == null) {return}
+
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragmentContainerView, fragment)
+                    ?.commit()
             }
 
             override fun onRmsChanged(rmsdB: Float) {}
@@ -158,19 +186,32 @@ class HomeFragment : Fragment() {
             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
         )
 
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ca")
 
+        var listening = false
 
         voiceRecognitionImageButton.setOnClickListener {
+            if (activity != null) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.RECORD_AUDIO), 200)
+
+            }
+
+
             if (!SpeechRecognizer.isRecognitionAvailable(requireContext())) {
                 return@setOnClickListener
             }
 
-            speechRecognizer.startListening(recognizerIntent)
-            
-            Thread.sleep(5000)
+            listening = !listening
 
-            speechRecognizer.stopListening()
+            if (!listening) {
+                voiceRecognitionImageButton.setColorFilter(resources.getColor(R.color.white))
+
+                speechRecognizer.stopListening()
+            } else {
+                speechRecognizer.startListening(recognizerIntent)
+
+                voiceRecognitionImageButton.setColorFilter(resources.getColor(R.color.green))
+            }
         }
 
         filterViewModel.filteredCategory.observe(viewLifecycleOwner) { updateFilter() }
