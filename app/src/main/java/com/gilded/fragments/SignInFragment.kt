@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.gilded.R
 import com.gilded.models.User
 import com.gilded.services.GildedAPI
+import com.gilded.utils.SignInValidator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,6 +34,8 @@ class SignInFragment : Fragment() {
         val signInButton: Button = signInFragment.findViewById(R.id.signin)
         val goBackImageButton: ImageButton = signInFragment.findViewById(R.id.goBack)
 
+        val errorTextView: TextView = signInFragment.findViewById(R.id.error)
+
         fun goBack() {
             val loginFragment = LoginFragment()
 
@@ -45,35 +49,30 @@ class SignInFragment : Fragment() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!SignInValidator.isUsernameValid(username)) {
+                Toast.makeText(context, "Nom d'usuari invalid", Toast.LENGTH_SHORT).show()
+                errorTextView.setText("Nom d'usuari invalid")
+
+                return@setOnClickListener
+            }
+
+            if (!SignInValidator.isEmailValid(email)) {
                 Toast.makeText(context, "Correu electronic invalid", Toast.LENGTH_SHORT).show()
+                errorTextView.setText("Correu electronic invalid")
 
                 return@setOnClickListener
             }
 
-            if (password.length < 8) {
-                Toast.makeText(context, "Contrasenya massa curta", Toast.LENGTH_SHORT).show()
+            val passwordValidError = SignInValidator.isPasswordValid(password)
+
+            if (passwordValidError != null) {
+                Toast.makeText(context, passwordValidError, Toast.LENGTH_SHORT).show()
+                errorTextView.setText(passwordValidError)
 
                 return@setOnClickListener
             }
 
-            if ("[A-Z]".toRegex().find(password) == null) {
-                Toast.makeText(context, "Contrasenya no te cap majúscula", Toast.LENGTH_SHORT).show()
-
-                return@setOnClickListener
-            }
-
-            if ("[a-z]".toRegex().find(password) == null) {
-                Toast.makeText(context, "Contrasenya no te cap minúscula", Toast.LENGTH_SHORT).show()
-
-                return@setOnClickListener
-            }
-
-            if ("[1-9]".toRegex().find(password) == null) {
-                Toast.makeText(context, "Contrasenya no te cap nombre", Toast.LENGTH_SHORT).show()
-
-                return@setOnClickListener
-            }
+            errorTextView.setText("Registre correcte")
 
             lifecycleScope.launch(Dispatchers.IO) {
                 var user: User? = null
