@@ -8,44 +8,44 @@ import org.junit.Test
 class ValidationUtilsTest {
 
     @Test
-    fun invalidName() {
+    fun invalidUsername() {
         assertFalse(
-            SignInValidator.isEmailValid("")
+            SignInValidator().isUsernameValid("")
         )
     }
 
     @Test
     fun validEmail() {
         assertTrue(
-            SignInValidator.isEmailValid("test@gmail.com")
+            SignInValidator().isEmailValid("test@gmail.com")
         )
     }
 
     @Test
     fun invalidEmail() {
         assertFalse(
-            SignInValidator.isEmailValid("testgmail.com")
+            SignInValidator().isEmailValid("testgmail.com")
         )
     }
 
     @Test
     fun validPassword() {
         assertTrue(
-            SignInValidator.isPasswordValid("rfewsfaefBHA1251") == null
+            SignInValidator().isPasswordValid("rfewsfaefBHA1251") == null
         )
     }
 
     @Test
     fun invalidPasswordTooShort() {
         assertFalse(
-            SignInValidator.isPasswordValid("1") == null
+            SignInValidator().isPasswordValid("1") == null
         )
     }
 
     @Test
     fun invalidPasswordTooNoNumber() {
         assertFalse(
-            SignInValidator.isPasswordValid("AbAGVFSDBGVAsf") == null
+            SignInValidator().isPasswordValid("AbAGVFSDBGVAsf") == null
         )
     }
 }

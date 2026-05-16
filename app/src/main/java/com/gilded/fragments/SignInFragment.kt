@@ -11,17 +11,21 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.gilded.R
 import com.gilded.models.User
 import com.gilded.services.GildedAPI
 import com.gilded.utils.SignInValidator
+import com.gilded.viewmodels.SignInViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class SignInFragment : Fragment() {
+    val signInViewModel: SignInViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +37,6 @@ class SignInFragment : Fragment() {
         val passwordEditText: EditText = signInFragment.findViewById(R.id.password)
         val signInButton: Button = signInFragment.findViewById(R.id.signin)
         val goBackImageButton: ImageButton = signInFragment.findViewById(R.id.goBack)
-
-        val errorTextView: TextView = signInFragment.findViewById(R.id.error)
 
         fun goBack() {
             val loginFragment = LoginFragment()
@@ -49,30 +51,13 @@ class SignInFragment : Fragment() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            if (!SignInValidator.isUsernameValid(username)) {
-                Toast.makeText(context, "Nom d'usuari invalid", Toast.LENGTH_SHORT).show()
-                errorTextView.setText("Nom d'usuari invalid")
+            signInViewModel.signInUser(username, email, password)
+
+            if (signInViewModel.errorMessage.value != null) {
+                Toast.makeText(context, signInViewModel.errorMessage.value, Toast.LENGTH_SHORT).show()
 
                 return@setOnClickListener
             }
-
-            if (!SignInValidator.isEmailValid(email)) {
-                Toast.makeText(context, "Correu electronic invalid", Toast.LENGTH_SHORT).show()
-                errorTextView.setText("Correu electronic invalid")
-
-                return@setOnClickListener
-            }
-
-            val passwordValidError = SignInValidator.isPasswordValid(password)
-
-            if (passwordValidError != null) {
-                Toast.makeText(context, passwordValidError, Toast.LENGTH_SHORT).show()
-                errorTextView.setText(passwordValidError)
-
-                return@setOnClickListener
-            }
-
-            errorTextView.setText("Registre correcte")
 
             lifecycleScope.launch(Dispatchers.IO) {
                 var user: User? = null

@@ -2,7 +2,7 @@ package com.gilded.utils
 
 import android.widget.Toast
 
-object SignInValidator {
+class SignInValidator {
     fun isUsernameValid(username: String): Boolean {
         return !username.isEmpty()
     }

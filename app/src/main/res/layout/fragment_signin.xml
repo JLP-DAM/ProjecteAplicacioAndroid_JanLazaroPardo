@@ -44,25 +44,6 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-
-        android:fontFamily="@font/montserrat_extrabold"
-
-        app:layout_constraintTop_toTopOf="parent"
-
-        android:gravity="center"
-        android:text="Gilded (no tinc logo no soc un disenyador grafic :( )"
-        android:textColor="@color/white"
-        android:textSize="0sp"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/username"
         android:layout_width="300dp"

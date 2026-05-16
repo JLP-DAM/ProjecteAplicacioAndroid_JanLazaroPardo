@@ -1,6 +1,6 @@
 package com.gilded
 
-import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.lifecycle.ViewModelProvider
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
@@ -9,9 +9,12 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.gilded.fragments.LoginFragment
 import com.gilded.fragments.SignInFragment
+import com.gilded.viewmodels.SignInViewModel
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -21,9 +24,13 @@ class RegisterActivityTest {
     @Test
     fun emptyUsernameError() {
 
+        lateinit var signInViewModel: SignInViewModel
+
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         activityScenario.onActivity { activity ->
+
+            signInViewModel = ViewModelProvider(activity)[SignInViewModel::class.java]
 
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerView, SignInFragment())
@@ -42,16 +49,19 @@ class RegisterActivityTest {
         onView(withId(R.id.signin))
             .perform(click())
 
-        onView(withText("Nom d'usuari invalid"))
-            .check(matches(isDisplayed()))
+        assertEquals("Nom d'usuari invalid", signInViewModel.errorMessage.value)
     }
 
     @Test
     fun invalidPasswordError() {
 
+        lateinit var signInViewModel: SignInViewModel
+
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         activityScenario.onActivity { activity ->
+
+            signInViewModel = ViewModelProvider(activity)[SignInViewModel::class.java]
 
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerView, SignInFragment())
@@ -73,16 +83,19 @@ class RegisterActivityTest {
         onView(withId(R.id.signin))
             .perform(click())
 
-        onView(withText("Contrasenya massa curta"))
-            .check(matches(isDisplayed()))
+        assertEquals("Contrasenya massa curta", signInViewModel.errorMessage.value)
+
     }
 
     @Test
-    fun successfulLogin() {
+    fun successfulSignIn() {
+
+        lateinit var signInViewModel: SignInViewModel
 
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
 
         activityScenario.onActivity { activity ->
+            signInViewModel = ViewModelProvider(activity)[SignInViewModel::class.java]
 
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerView, SignInFragment())
@@ -104,7 +117,24 @@ class RegisterActivityTest {
         onView(withId(R.id.signin))
             .perform(click())
 
-        onView(withText("Registre correcte"))
-            .check(matches(isDisplayed()))
+        assertNull(signInViewModel.errorMessage.value)
+
+        activityScenario.onActivity { activity ->
+            activity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, LoginFragment())
+                .commitNow()
+        }
+
+        onView(withId(R.id.login)).check(matches(isDisplayed()))
+        onView(withId(R.id.email))
+            .perform(typeText("2223_jan.lazaro@iticbcn.cat"))
+
+        onView(withId(R.id.password))
+            .perform(typeText("rfewsfaefBHA1251"))
+
+        closeSoftKeyboard()
+
+        onView(withId(R.id.login))
+            .perform(click())
     }
 }
