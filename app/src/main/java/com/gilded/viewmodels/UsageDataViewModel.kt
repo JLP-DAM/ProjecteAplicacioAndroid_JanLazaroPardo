@@ -66,7 +66,6 @@ class UsageDataViewModel: ViewModel() {
         firestoreDatabase.collection("usageStats").document(userId.value!!.toString())
             .get()
             .addOnSuccessListener { doc ->
-                Log.d("data", doc.data.toString())
                 if (doc == null || !doc.exists()) {
                     return@addOnSuccessListener
                 }

@@ -9,7 +9,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.Fragment
@@ -18,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.gilded.R
 import com.gilded.services.PreferencesKeys
 import com.gilded.services.preferencesDataStore
+import com.gilded.viewmodels.SettingsViewModel
 import com.gilded.viewmodels.UsageDataViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +30,7 @@ import kotlin.getValue
 
 class SettingsFragment : Fragment() {
     private val usageDataViewModel: UsageDataViewModel by activityViewModels()
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +49,14 @@ class SettingsFragment : Fragment() {
         val creationsTextView: TextView = settingsFragmentView.findViewById(R.id.creations)
         val deletionsTextView: TextView = settingsFragmentView.findViewById(R.id.deletions)
         val emissionsTextView: TextView = settingsFragmentView.findViewById(R.id.emissions)
+
+        val voiceNavigationSwitch: SwitchCompat = settingsFragmentView.findViewById(R.id.voiceNavigation)
+
+        voiceNavigationSwitch.isChecked = settingsViewModel.voiceNavigation.value ?: false
+
+        voiceNavigationSwitch.setOnCheckedChangeListener { _, isChecked ->
+            settingsViewModel.setVoiceNavigation(isChecked)
+        }
 
         for (currency in Currency.getAvailableCurrencies()) {
             val currencyCardView: View = inflater.inflate(R.layout.currency, null)

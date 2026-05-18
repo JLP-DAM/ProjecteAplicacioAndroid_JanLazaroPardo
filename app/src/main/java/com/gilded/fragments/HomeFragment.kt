@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.Manifest
+import com.gilded.viewmodels.SettingsViewModel
 
 
 class HomeFragment : Fragment() {
@@ -50,6 +51,8 @@ class HomeFragment : Fragment() {
 
     private val filterViewModel: FilterViewModel by activityViewModels()
     private val usageDataViewModel: UsageDataViewModel by activityViewModels()
+
+    private val settingsViewModel: SettingsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -196,7 +199,6 @@ class HomeFragment : Fragment() {
 
             }
 
-
             if (!SpeechRecognizer.isRecognitionAvailable(requireContext())) {
                 return@setOnClickListener
             }
@@ -212,6 +214,12 @@ class HomeFragment : Fragment() {
 
                 voiceRecognitionImageButton.setColorFilter(resources.getColor(R.color.green))
             }
+        }
+
+        if (settingsViewModel.voiceNavigation.value ?: false) {
+            voiceRecognitionImageButton.visibility = ViewGroup.VISIBLE
+        } else {
+            voiceRecognitionImageButton.visibility = ViewGroup.GONE
         }
 
         filterViewModel.filteredCategory.observe(viewLifecycleOwner) { updateFilter() }
