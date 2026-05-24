@@ -14,10 +14,15 @@ import com.gilded.fragments.HomeFragment
 import com.gilded.fragments.ReceiptCreatorFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.gilded.fragments.LoginFragment
+import com.gilded.services.UsageDataStore
 import com.gilded.viewmodels.CurrentUserViewModel
 import com.gilded.viewmodels.UsageDataViewModel
 import com.google.firebase.FirebaseApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     var startTime = System.currentTimeMillis()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val context = this
+
         if (FirebaseApp.getApps(this).isEmpty()) {
             FirebaseApp.initializeApp(this)
         }
@@ -91,6 +98,13 @@ class MainActivity : AppCompatActivity() {
                     savedInstanceState: Bundle?
                 ) {
                     val fragmentName = fragment::class.java.simpleName
+
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        UsageDataStore.incrementFragment(context, fragmentName)
+                        val fragmentCount = UsageDataStore.getFragment(context, fragmentName)
+
+                        Log.d(fragmentName, fragmentCount.first().toString())
+                    }
 
                     bottomNavigationView.visibility = if (bottomNavigationVisibleHashMap[fragmentName] != null) {
                         View.VISIBLE

@@ -119,47 +119,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/emissions"
+    <Button
+        android:id="@+id/usageData"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+
+        android:backgroundTint="@color/black_tonal1"
+
         android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
 
-        android:gravity="center"
-        android:text="Nu.m Co2 KG"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/deletions"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="40dp"
-
-        app:layout_constraintBottom_toBottomOf="@id/emissions"
-
-        android:gravity="center"
-        android:text="Receipt Deletions: Num"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/creations"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="40dp"
-
-        app:layout_constraintBottom_toBottomOf="@id/deletions"
-
-        android:gravity="center"
-        android:text="Receipt Creations: Num"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
+        android:text="@string/usage_data"
+        android:textSize="24sp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

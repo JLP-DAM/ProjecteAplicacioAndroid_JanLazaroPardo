@@ -42,13 +42,10 @@ class SettingsFragment : Fragment() {
         val currenciesConstraintLayout: ConstraintLayout = settingsFragmentView.findViewById(R.id.currencies)
         val currenciesScrollView: ScrollView = currenciesConstraintLayout.findViewById(R.id.currenciesScrollView)
         val currenciesLinearLayout: LinearLayout = currenciesScrollView.findViewById(R.id.currenciesLinearLayout)
+        val usageDataButton: Button = settingsFragmentView.findViewById(R.id.usageData)
         val closeDialogImageButton: ImageButton = settingsFragmentView.findViewById(R.id.closeDialog)
 
         val closeButton: ImageButton = settingsFragmentView.findViewById(R.id.close)
-
-        val creationsTextView: TextView = settingsFragmentView.findViewById(R.id.creations)
-        val deletionsTextView: TextView = settingsFragmentView.findViewById(R.id.deletions)
-        val emissionsTextView: TextView = settingsFragmentView.findViewById(R.id.emissions)
 
         val voiceNavigationSwitch: SwitchCompat = settingsFragmentView.findViewById(R.id.voiceNavigation)
 
@@ -82,19 +79,14 @@ class SettingsFragment : Fragment() {
             currenciesConstraintLayout.visibility = View.VISIBLE
         }
 
-        creationsTextView.setText("Rebuts creats: " + usageDataViewModel.receiptCreations.value!!)
-        deletionsTextView.setText("Rebuts borrats: " + usageDataViewModel.receiptDeletions.value!!)
-
-        // he trobat aquesta estatistica online en varis articles
-        // deien que són 63 KG de Co2 per Any si s'utilitza el mobil una hora al dia
-        // 63 / 365 = 0.17260273972
-        val co2KGPerHour = 0.17260273972
-        val usageHours = usageDataViewModel.usageTime.value!! / (1000 * 60 * 60)
-
-        emissionsTextView.setText("Emissions de Co2: " + String.format("%.2f", usageHours * co2KGPerHour) + " KG")
-
         closeDialogImageButton.setOnClickListener {
             currenciesConstraintLayout.visibility = View.GONE
+        }
+
+        usageDataButton.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentContainerView, UsageDataFragment())
+                ?.commit()
         }
 
         closeButton.setOnClickListener {

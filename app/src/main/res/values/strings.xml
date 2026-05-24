@@ -48,4 +48,6 @@
     <string name="search">Busca...</string>
 
     <string name="reset_filter">Restablir filtre</string>
+
+    <string name="usage_data">Dades d\'ús</string>
 </resources>
